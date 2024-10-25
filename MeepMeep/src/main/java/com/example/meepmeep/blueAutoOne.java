@@ -17,15 +17,30 @@ public class blueAutoOne {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 18)
                 .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(new Pose2d(0, 63, Math.toRadians(270)))
                         .forward(6)
-                        //.turn(Math.toRadians(90))
-                        //.forward(55)
                         .strafeLeft(50)
-                        //.turn(Math.toRadians(45))
-                        .waitSeconds(1)
-                        //.turn(Math.toRadians(-148))
                         .turn(Math.toRadians(127))
-                        .strafeRight(20)
-
+                        //do arm things
+                        .strafeRight(15)
+                        .turn(Math.toRadians(-90))
+                        //more arm things
+                        .turn(Math.toRadians(90))
+                        .strafeLeft(15)
+                        //more arm things
+                        .strafeRight(15)
+                        .turn(Math.toRadians(-160))
+                        //arm things
+                        .turn(Math.toRadians(160))
+                        .strafeLeft(15)
+                        //arm things
+                        .strafeRight(15)
+                        .turn(Math.toRadians(-130))
+                        //arm things
+                        .turn(Math.toRadians(130))
+                        .strafeLeft(15)
+                        //arm things
+                        .turn(Math.toRadians(30))
+                        .back(55)
+                        .turn(Math.toRadians(120))
                         .build());
 
 
