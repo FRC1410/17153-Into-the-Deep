@@ -19,25 +19,25 @@ public class blueAutoOne {
                         .forward(6)
                         .strafeLeft(50)
                         .turn(Math.toRadians(127))
-                        //do arm things
+                        .waitSeconds(1)
                         .strafeRight(15)
                         .turn(Math.toRadians(-90))
-                        //more arm things
+                        .waitSeconds(1)
                         .turn(Math.toRadians(90))
                         .strafeLeft(15)
-                        //more arm things
+                        .waitSeconds(1)
                         .strafeRight(15)
                         .turn(Math.toRadians(-160))
-                        //arm things
+                        .waitSeconds(1)
                         .turn(Math.toRadians(160))
                         .strafeLeft(15)
-                        //arm things
+                        .waitSeconds(1)
                         .strafeRight(15)
                         .turn(Math.toRadians(-130))
-                        //arm things
+                        .waitSeconds(1)
                         .turn(Math.toRadians(130))
                         .strafeLeft(15)
-                        //arm things
+                        .waitSeconds(1)
                         .turn(Math.toRadians(30))
                         .back(55)
                         .turn(Math.toRadians(120))
