@@ -15,6 +15,7 @@ public class servoClaw {
             servoClaw.setPosition(0.4);
         }
 
+
     }
 
     public void init(HardwareMap hardwareMap) {
