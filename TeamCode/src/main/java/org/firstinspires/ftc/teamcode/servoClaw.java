@@ -19,7 +19,7 @@ public class servoClaw {
 
     public void init(HardwareMap hardwareMap) {
 
-        servoClaw = hardwareMap.get(Servo.class,"servo");
+        servoClaw = hardwareMap.get(Servo.class,"servoClaw");
 
     }
 
