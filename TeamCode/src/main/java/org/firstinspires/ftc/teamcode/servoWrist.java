@@ -6,13 +6,13 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class servoWrist {
     public Servo servoWrist;
 
-    public void runServoWrist(boolean c, boolean d) {
+    public void runServoWrist(boolean x, boolean y) {
 
-        if (c){
-            servoWrist.setPosition(1);
+        if (x){
+            servoWrist.setPosition(1); // open
         }
-        else if(d){
-            servoWrist.setPosition(0.4);
+        else if(y){
+            servoWrist.setPosition(0.4); // closed
         }
 
     }

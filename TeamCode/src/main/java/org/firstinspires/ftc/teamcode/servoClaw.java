@@ -9,12 +9,11 @@ public class servoClaw {
     public void runServoClaw(boolean a, boolean b) {
 
         if (a){
-            servoClaw.setPosition(1);
+            servoClaw.setPosition(1); //open
         }
         else if(b){
-            servoClaw.setPosition(0.4);
+            servoClaw.setPosition(0.4); //closed
         }
-
 
     }
 
