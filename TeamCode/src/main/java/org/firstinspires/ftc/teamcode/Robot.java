@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.teamcode.constants.clawOpenValue;
+import static org.firstinspires.ftc.teamcode.constants.wristOpenValue;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -17,8 +20,12 @@ public class Robot extends OpMode {
 
     @Override
     public void loop() {
-        servoClaw.runServoClaw(gamepad1.a, gamepad1.b);
-        servoWrist.runServoWrist(gamepad1.x, gamepad1.y);
+        if (gamepad1.a) {
+            servoClaw.runServoClaw(clawOpenValue);
+        }
+        if (gamepad1.a) {
+            servoWrist.runServoWrist(wristOpenValue);
+        }
         //These are gamepad1 for testing, will change to gamepad2
     }
 }

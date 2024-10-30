@@ -5,4 +5,5 @@ public interface constants {
     double clawCloseValue = 0.4;
     double wristOpenValue = 1;
     double wristCloseValue = 0.4;
+
 }

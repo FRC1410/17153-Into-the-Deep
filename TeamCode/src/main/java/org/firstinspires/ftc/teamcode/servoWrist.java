@@ -9,14 +9,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class servoWrist {
     public Servo servoWrist;
 
-    public void runServoWrist(boolean wristOut, boolean wristIn) {
+    public void runServoWrist(double wristInput) {
 
-        if (wristOut){
-            servoWrist.setPosition(wristOpenValue); // open
-        }
-        else if(wristIn){
-            servoWrist.setPosition(wristCloseValue); // closed
-        }
+        servoWrist.setPosition(wristInput); // open
 
     }
 

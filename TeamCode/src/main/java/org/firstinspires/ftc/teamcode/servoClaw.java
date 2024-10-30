@@ -9,14 +9,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class servoClaw {
     public Servo servoClaw;
 
-    public void runServoClaw(boolean openClaw, boolean closeClaw) {
+    public void runServoClaw(double clawInput) {
 
-        if (openClaw){
-            servoClaw.setPosition(clawOpenValue); //open
-        }
-        else if(closeClaw){
-            servoClaw.setPosition(clawCloseValue); //closed
-        }
+        servoClaw.setPosition(clawInput); //take input
 
     }
 
