@@ -1,15 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
-import static org.firstinspires.ftc.teamcode.constants.clawCloseValue;
-import static org.firstinspires.ftc.teamcode.constants.clawOpenValue;
-
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-public class servoClaw {
+public class Claw {
     public Servo servoClaw;
 
-    public void runServoClaw(double clawInput) {
+    public void setServoClawPos(double clawInput) {
 
         servoClaw.setPosition(clawInput); //take input
 
@@ -17,7 +14,7 @@ public class servoClaw {
 
     public void init(HardwareMap hardwareMap) {
 
-        servoClaw = hardwareMap.get(Servo.class,"servoClaw");
+        servoClaw = hardwareMap.get(Servo.class,"servoClawPosSet");
 
     }
 

@@ -1,15 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
-import static org.firstinspires.ftc.teamcode.constants.wristCloseValue;
-import static org.firstinspires.ftc.teamcode.constants.wristOpenValue;
-
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-public class servoWrist {
+public class ClawWrist {
     public Servo servoWrist;
 
-    public void runServoWrist(double wristInput) {
+    public void setServoWristPos(double wristInput) {
 
         servoWrist.setPosition(wristInput); // open
 
@@ -17,7 +14,7 @@ public class servoWrist {
 
     public void init(HardwareMap hardwareMap) {
 
-        servoWrist = hardwareMap.get(Servo.class,"servoWrist");
+        servoWrist = hardwareMap.get(Servo.class,"servoWristPosSet");
 
     }
 

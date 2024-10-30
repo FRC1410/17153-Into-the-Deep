@@ -1,9 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
 public interface constants {
-    double clawOpenValue = 1;
-    double clawCloseValue = 0.4;
-    double wristOpenValue = 1;
-    double wristCloseValue = 0.4;
+    double openClawValue = 1;
+    double closedClawValue = 0.4;
+    double openWristValue = 1;
+    double closedWristValue = 0;
 
 }
