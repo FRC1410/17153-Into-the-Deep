@@ -1,18 +1,21 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.teamcode.constants.clawCloseValue;
+import static org.firstinspires.ftc.teamcode.constants.clawOpenValue;
+
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class servoClaw {
     public Servo servoClaw;
 
-    public void runServoClaw(boolean a, boolean b) {
+    public void runServoClaw(boolean openClaw, boolean closeClaw) {
 
-        if (a){
-            servoClaw.setPosition(1); //open
+        if (openClaw){
+            servoClaw.setPosition(clawOpenValue); //open
         }
-        else if(b){
-            servoClaw.setPosition(0.4); //closed
+        else if(closeClaw){
+            servoClaw.setPosition(clawCloseValue); //closed
         }
 
     }

@@ -19,5 +19,6 @@ public class Robot extends OpMode {
     public void loop() {
         servoClaw.runServoClaw(gamepad1.a, gamepad1.b);
         servoWrist.runServoWrist(gamepad1.x, gamepad1.y);
+        //These are gamepad1 for testing, will change to gamepad2
     }
 }
