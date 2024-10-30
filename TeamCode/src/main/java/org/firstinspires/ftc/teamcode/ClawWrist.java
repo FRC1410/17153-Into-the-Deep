@@ -6,16 +6,18 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class ClawWrist {
     public Servo servoWrist;
 
+    public void init(HardwareMap hardwareMap) {
+
+        servoWrist = hardwareMap.get(Servo.class,"servoWristPosSet");
+
+    }
+
     public void setServoWristPos(double wristInput) {
 
         servoWrist.setPosition(wristInput); // open
 
     }
 
-    public void init(HardwareMap hardwareMap) {
 
-        servoWrist = hardwareMap.get(Servo.class,"servoWristPosSet");
-
-    }
 
 }
