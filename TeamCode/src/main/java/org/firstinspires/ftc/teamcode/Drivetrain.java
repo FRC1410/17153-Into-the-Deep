@@ -5,32 +5,36 @@ import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gam
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 
 public class Drivetrain {
-    DcMotor moaterFL;
-    DcMotor moaterFR;
-    DcMotor moaterBL;
-    DcMotor moaterBR;
+    DcMotor motorFL;
+    DcMotor motorFR;
+    DcMotor motorBL;
+    DcMotor motorBR;
 
-    public void init(){
-        moaterFL = hardwareMap.dcMotor.get("motorFL");
-        moaterFR = hardwareMap.dcMotor.get("motorFR");
-        moaterBL = hardwareMap.dcMotor.get("motorBL");
-        moaterBR = hardwareMap.dcMotor.get("motorBR");
-        moaterFL.setDirection(FORWARD);
-        moaterFR.setDirection(FORWARD);
-        moaterBL.setDirection(FORWARD);
-        moaterBR.setDirection(FORWARD);
+    public void init(HardwareMap hardwareMap){
+        motorFL = hardwareMap.dcMotor.get("motorFL");
+        motorFR = hardwareMap.dcMotor.get("motorFR");
+        motorBL = hardwareMap.dcMotor.get("motorBL");
+        motorBR = hardwareMap.dcMotor.get("motorBR");
+        motorFL.setDirection(FORWARD);
+        motorFR.setDirection(FORWARD);
+        motorBL.setDirection(FORWARD);
+        motorBR.setDirection(FORWARD);
 
     }
-    public void loop(){
-        moaterFL.setPower(gamepad1.left_stick_y + gamepad1.right_stick_x + gamepad1.left_stick_x);
-        moaterFR.setPower(gamepad1.left_stick_y - gamepad1.right_stick_x - gamepad1.left_stick_x);
-        moaterBL.setPower(gamepad1.left_stick_y + gamepad1.right_stick_x - gamepad1.left_stick_x);
-        moaterBR.setPower(gamepad1.left_stick_y - gamepad1.right_stick_x + gamepad1.left_stick_x);
+    public void loop(double forwardBack, double strafe, double rotation){
+        
+        motorFL.setPower(forwardBack + strafe + rotation);
+        motorFR.setPower(forwardBack - strafe - rotation);
+        motorBL.setPower(forwardBack + strafe - rotation);
+        motorBR.setPower(forwardBack - strafe + rotation);
 
     }
 
 }
+//Lefty = forwardback
+//leftx = rotation
+//rightx = strafe
