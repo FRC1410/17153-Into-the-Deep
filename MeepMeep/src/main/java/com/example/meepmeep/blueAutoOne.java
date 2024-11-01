@@ -18,29 +18,29 @@ public class blueAutoOne {
                 .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(new Pose2d(0, 63, Math.toRadians(270)))
                         .forward(6)
                         .strafeLeft(50)
-                        .turn(Math.toRadians(127))
+                        .turn(Math.toRadians(-53))
                         .waitSeconds(1)
-                        .strafeRight(15)
-                        .turn(Math.toRadians(-90))
-                        .waitSeconds(1)
+                        .strafeLeft(15)
                         .turn(Math.toRadians(90))
-                        .strafeLeft(15)
                         .waitSeconds(1)
+                        .turn(Math.toRadians(-90))
                         .strafeRight(15)
-                        .turn(Math.toRadians(-160))
                         .waitSeconds(1)
-                        .turn(Math.toRadians(160))
                         .strafeLeft(15)
+                        .turn(Math.toRadians(50))
                         .waitSeconds(1)
+                        .turn(Math.toRadians(-50))
                         .strafeRight(15)
-                        .turn(Math.toRadians(-130))
                         .waitSeconds(1)
-                        .turn(Math.toRadians(130))
                         .strafeLeft(15)
+                        .turn(Math.toRadians(10))
+                        .waitSeconds(1)
+                        .turn(Math.toRadians(-10))
+                        .strafeRight(15)
                         .waitSeconds(1)
                         .turn(Math.toRadians(30))
-                        .back(55)
-                        .turn(Math.toRadians(120))
+                        .forward(55)
+                        .turn(Math.toRadians(-65))
                         .build());
 
 
@@ -51,4 +51,3 @@ public class blueAutoOne {
                 .start();
     }
 }
-
