@@ -2,16 +2,21 @@ package org.firstinspires.ftc.teamcode;
 
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.FORWARD;
 
+import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.Range;
 
 import static org.firstinspires.ftc.teamcode.Constants.CONTROL_HUB;
 import static org.firstinspires.ftc.teamcode.Constants.FRONT_LEFT_MOTOR_ID;
 import static org.firstinspires.ftc.teamcode.Constants.BACK_LEFT_MOTOR_ID;
 import static org.firstinspires.ftc.teamcode.Constants.FRONT_RIGHT_MOTOR_ID;
 import static org.firstinspires.ftc.teamcode.Constants.BACK_RIGHT_MOTOR_ID;
+
+import android.provider.ContactsContract;
 
 
 public class Drivetrain {
@@ -24,6 +29,7 @@ public class Drivetrain {
     VoltageSensor controlHubVoltageSensor;
 
     double[] wheelSpeeds = new double[4];
+    double maxPower = 1;
 
     public void init(HardwareMap hardwareMap) {
 
@@ -38,6 +44,7 @@ public class Drivetrain {
         motorBR.setDirection(FORWARD);
 
         controlHubVoltageSensor = hardwareMap.get(VoltageSensor.class, CONTROL_HUB);
+
     }
 
     public void mechanumDrive(
@@ -46,7 +53,12 @@ public class Drivetrain {
             double turnSpeed,
             double gyroAngle)
     {
+
         Vector2d input = new Vector2d(strafeSpeed, forwardSpeed);
+
+        strafeSpeed = Range.clip(input.x, -1, 1);
+        forwardSpeed = Range.clip(input.y, -1, 1);
+        turnSpeed = Range.clip(turnSpeed, -1, 1);
 
         wheelSpeeds[0] = forwardSpeed + strafeSpeed + turnSpeed;
         wheelSpeeds[1] = forwardSpeed - strafeSpeed - turnSpeed;
@@ -60,6 +72,25 @@ public class Drivetrain {
                     wheelSpeeds[i] * voltageCorrection :
                     (wheelSpeeds[i] + Math.signum(wheelSpeeds[i]) * 0.085) * voltageCorrection;
         }
+
+        for(double wheelspeeds : wheelSpeeds) maxPower = Math.max(maxPower, Math.abs(wheelspeeds));
+
+        if(maxPower > 1) {
+            wheelSpeeds[0] /= maxPower;
+            wheelSpeeds[1] /= maxPower;
+            wheelSpeeds[2] /= maxPower;
+            wheelSpeeds[3] /= maxPower;
+        }
+
+        motorFL.setPower(wheelSpeeds[0]);
+        motorFR.setPower(wheelSpeeds[1]);
+        motorBL.setPower(wheelSpeeds[2]);
+        motorBR.setPower(wheelSpeeds[3]);
+    }
+
+    public void setPose(Pose2d pose2d, double angle) {
+        // Todo: Not sure if this will work... needs some testing and debugging
+        mechanumDrive(pose2d.component1().x, pose2d.component1().y, pose2d.component2().real, angle);
     }
 }
 
