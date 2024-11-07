@@ -7,4 +7,6 @@ public class Constants {
     public static String FRONT_RIGHT_MOTOR_ID = "2";
     public static String BACK_RIGHT_MOTOR_ID = "3";
 
+    public static String CONTROL_HUB = "Control Hub";
+
 }
