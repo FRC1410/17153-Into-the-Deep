@@ -50,8 +50,7 @@ public class Drivetrain {
     public void mechanumDrive(
             double strafeSpeed,
             double forwardSpeed,
-            double turnSpeed,
-            double gyroAngle)
+            double turnSpeed)
     {
 
         Vector2d input = new Vector2d(strafeSpeed, forwardSpeed);
@@ -73,7 +72,7 @@ public class Drivetrain {
                     (wheelSpeeds[i] + Math.signum(wheelSpeeds[i]) * 0.085) * voltageCorrection;
         }
 
-        for(double wheelspeeds : wheelSpeeds) maxPower = Math.max(maxPower, Math.abs(wheelspeeds));
+        for(double wheelSpeeds : wheelSpeeds) maxPower = Math.max(maxPower, Math.abs(wheelSpeeds));
 
         if(maxPower > 1) {
             wheelSpeeds[0] /= maxPower;
@@ -86,11 +85,6 @@ public class Drivetrain {
         motorFR.setPower(wheelSpeeds[1]);
         motorBL.setPower(wheelSpeeds[2]);
         motorBR.setPower(wheelSpeeds[3]);
-    }
-
-    public void setPose(Pose2d pose2d, double angle) {
-        // Todo: Not sure if this will work... needs some testing and debugging
-        mechanumDrive(pose2d.component1().x, pose2d.component1().y, pose2d.component2().real, angle);
     }
 }
 
