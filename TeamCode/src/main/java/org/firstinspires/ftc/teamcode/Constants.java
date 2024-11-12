@@ -19,4 +19,10 @@ public class Constants {
     public static double DRIVETRAIN_P = 1;
     public static double DRIVETRAIN_I = 0;
     public static double DRIVETRAIN_D = 0;
+
+    //RoadRunner Constants
+    public static double WHEEL_RADIUS = 37.5; //in millimeters
+    public static double GEAR_RATIO = 20; //20/1
+    public static double TRACK_WIDTH = 16.075; //in inches
+    
 }
