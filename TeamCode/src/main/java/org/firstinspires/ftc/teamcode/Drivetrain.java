@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.FORWARD;
+import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.REVERSE;
 
 import com.acmerobotics.roadrunner.MecanumKinematics;
 import com.acmerobotics.roadrunner.Vector2d;
@@ -37,9 +38,14 @@ public class Drivetrain {
         this.motorFL.setDirection(FORWARD);
         this.motorFR.setDirection(FORWARD);
         this.motorBL.setDirection(FORWARD);
-        this.motorBR.setDirection(FORWARD);
+        this.motorBR.setDirection(REVERSE);
 
-        this.controlHubVoltageSensor = hardwareMap.get(VoltageSensor.class, CONTROL_HUB);
+        this.motorFL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        this.motorFR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        this.motorBL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        this.motorBR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        this.controlHubVoltageSensor = hardwareMap.voltageSensor.iterator().next();
         this.imu = hardwareMap.get(IMU.class, CONTROL_HUB_IMU);
         this.imu.initialize(new IMU.Parameters(HUB_ORIENTATION));
     }
@@ -84,6 +90,3 @@ public class Drivetrain {
         this.motorBR.setPower(wheelSpeeds[3]);
     }
 }
-
-
-
