@@ -3,9 +3,14 @@ package org.firstinspires.ftc.teamcode;
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.FORWARD;
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.REVERSE;
 
+import com.acmerobotics.roadrunner.MappedPosePath;
 import com.acmerobotics.roadrunner.MecanumKinematics;
+import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.Trajectory;
+import com.acmerobotics.roadrunner.TrajectoryBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -14,26 +19,31 @@ import com.qualcomm.robotcore.util.Range;
 import static org.firstinspires.ftc.teamcode.IDs.*;
 import static org.firstinspires.ftc.teamcode.Constants.*;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Drivetrain {
 
-    private DcMotor motorFL;
-    private DcMotor motorFR;
-    private DcMotor motorBL;
-    private DcMotor motorBR;
+    private DcMotorEx motorFL;
+    private DcMotorEx motorFR;
+    private DcMotorEx motorBL;
+    private DcMotorEx motorBR;
 
     private VoltageSensor controlHubVoltageSensor;
     private IMU imu;
-
-    double[] wheelSpeeds = new double[4];
-    double maxPower = 1;
+    private double[] wheelSpeeds = new double[4];
+    private double maxPower = 1;
 
     public void init(HardwareMap hardwareMap) {
 
-        this.motorFL = hardwareMap.dcMotor.get(FRONT_LEFT_MOTOR_ID);
-        this.motorBL = hardwareMap.dcMotor.get(BACK_LEFT_MOTOR_ID);
-        this.motorFR = hardwareMap.dcMotor.get(FRONT_RIGHT_MOTOR_ID);
-        this.motorBR = hardwareMap.dcMotor.get(BACK_RIGHT_MOTOR_ID);
+        this.motorFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        this.motorFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        this.motorBL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        this.motorBR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        this.motorFL = hardwareMap.get(DcMotorEx.class, FRONT_LEFT_MOTOR_ID);
+        this.motorBL = hardwareMap.get(DcMotorEx.class, BACK_LEFT_MOTOR_ID);
+        this.motorFR = hardwareMap.get(DcMotorEx.class, FRONT_RIGHT_MOTOR_ID);
+        this.motorBR = hardwareMap.get(DcMotorEx.class, BACK_RIGHT_MOTOR_ID);
 
         this.motorFL.setDirection(FORWARD);
         this.motorFR.setDirection(FORWARD);
@@ -44,6 +54,11 @@ public class Drivetrain {
         this.motorFR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         this.motorBL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         this.motorBR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        this.motorFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        this.motorFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        this.motorBL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        this.motorBR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         this.controlHubVoltageSensor = hardwareMap.voltageSensor.iterator().next();
         this.imu = hardwareMap.get(IMU.class, CONTROL_HUB_IMU);
@@ -88,5 +103,32 @@ public class Drivetrain {
         this.motorFR.setPower(wheelSpeeds[1]);
         this.motorBL.setPower(wheelSpeeds[2]);
         this.motorBR.setPower(wheelSpeeds[3]);
+    }
+
+    public void autoDriveStraight(double forwardDistance, double velocity) {
+        double encoderDistance = this.distanceToEncoderCount(forwardDistance);
+
+        this.motorFL.setTargetPosition((int) encoderDistance);
+        this.motorBL.setTargetPosition((int) encoderDistance);
+        this.motorFR.setTargetPosition((int) encoderDistance);
+        this.motorBR.setTargetPosition((int) encoderDistance);
+
+        this.motorFL.setVelocity(velocity);
+        this.motorBL.setVelocity(velocity);
+        this.motorFR.setVelocity(velocity);
+        this.motorBR.setVelocity(velocity);
+    }
+
+    public double distanceToEncoderCount(double distanceInInches) {
+        return distanceInInches * ENCODER_COUNT_PER_INCH;
+    }
+
+    public double velocityToEncoderCount() {
+        return 0;
+    }
+
+    public void drivetrainData(Telemetry telemetry) {
+        telemetry.addData("Front Left Encoder Value", this.motorFL.getCurrentPosition());
+        telemetry.update();
     }
 }
