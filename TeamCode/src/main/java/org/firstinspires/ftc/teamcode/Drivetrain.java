@@ -3,11 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.FORWARD;
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.REVERSE;
 
-import com.acmerobotics.roadrunner.MappedPosePath;
-import com.acmerobotics.roadrunner.MecanumKinematics;
-import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.Trajectory;
-import com.acmerobotics.roadrunner.TrajectoryBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -105,30 +100,43 @@ public class Drivetrain {
         this.motorBR.setPower(wheelSpeeds[3]);
     }
 
+    // These parameters are in Inches per second
     public void autoDriveStraight(double forwardDistance, double velocity) {
         double encoderDistance = this.distanceToEncoderCount(forwardDistance);
+        double encoderVelocity = this.velocityToEncoderCount(velocity);
 
-        this.motorFL.setTargetPosition((int) encoderDistance);
-        this.motorBL.setTargetPosition((int) encoderDistance);
-        this.motorFR.setTargetPosition((int) encoderDistance);
-        this.motorBR.setTargetPosition((int) encoderDistance);
+        int currentFLPosition = this.motorFL.getCurrentPosition();
+        int currentFRPosition = this.motorFR.getCurrentPosition();
+        int currentBLPosition = this.motorBL.getCurrentPosition();
+        int currentBRPosition = this.motorBR.getCurrentPosition();
 
-        this.motorFL.setVelocity(velocity);
-        this.motorBL.setVelocity(velocity);
-        this.motorFR.setVelocity(velocity);
-        this.motorBR.setVelocity(velocity);
+        this.motorFL.setTargetPosition(currentFLPosition + (int) encoderDistance);
+        this.motorFR.setTargetPosition(currentFRPosition + (int) encoderDistance);
+        this.motorBL.setTargetPosition(currentBLPosition + (int) encoderDistance);
+        this.motorBR.setTargetPosition(currentBRPosition + (int) encoderDistance);
+
+        this.motorFL.setVelocity(encoderVelocity);
+        this.motorBL.setVelocity(encoderVelocity);
+        this.motorFR.setVelocity(encoderVelocity);
+        this.motorBR.setVelocity(encoderVelocity);
     }
 
-    public double distanceToEncoderCount(double distanceInInches) {
-        return distanceInInches * ENCODER_COUNT_PER_INCH;
+    public double distanceToEncoderCount(double desiredDistanceInInches) {
+        return desiredDistanceInInches * ENCODER_COUNT_PER_INCH;
     }
 
-    public double velocityToEncoderCount() {
-        return 0;
+    public double velocityToEncoderCount(double desiredVelocity) {
+        double desiredRPM = (60 * desiredVelocity) / (GEAR_RATIO * WHEEL_CIRCUFERENCE);
+        double ticksPerSecond = (desiredRPM / 60) * ENCODER_COUNT_PER_WHEEL_REVOLUTION;
+
+        return ticksPerSecond;
     }
 
     public void drivetrainData(Telemetry telemetry) {
-        telemetry.addData("Front Left Encoder Value", this.motorFL.getCurrentPosition());
+        telemetry.addData("Front Left: ", this.motorFL.getCurrentPosition());
+        telemetry.addData("Front Right: ", this.motorFR.getCurrentPosition());
+        telemetry.addData("Back Left: ", this.motorBL.getCurrentPosition());
+        telemetry.addData("Back Right: ", this.motorBR.getCurrentPosition());
         telemetry.update();
     }
 }
