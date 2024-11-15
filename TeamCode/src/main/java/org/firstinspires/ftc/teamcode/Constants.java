@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.acmerobotics.roadrunner.ProfileParams;
-import com.acmerobotics.roadrunner.TrajectoryBuilderParams;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 
 public class Constants {
