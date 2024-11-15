@@ -60,6 +60,37 @@ public class Drivetrain {
         this.imu.initialize(new IMU.Parameters(HUB_ORIENTATION));
     }
 
+    public void autoInit(HardwareMap hardwareMap) {
+        this.motorFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        this.motorFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        this.motorBL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        this.motorBR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        this.motorFL = hardwareMap.get(DcMotorEx.class, FRONT_LEFT_MOTOR_ID);
+        this.motorBL = hardwareMap.get(DcMotorEx.class, BACK_LEFT_MOTOR_ID);
+        this.motorFR = hardwareMap.get(DcMotorEx.class, FRONT_RIGHT_MOTOR_ID);
+        this.motorBR = hardwareMap.get(DcMotorEx.class, BACK_RIGHT_MOTOR_ID);
+
+        this.motorFL.setDirection(FORWARD);
+        this.motorFR.setDirection(FORWARD);
+        this.motorBL.setDirection(FORWARD);
+        this.motorBR.setDirection(REVERSE);
+
+        this.motorFL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        this.motorFR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        this.motorBL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        this.motorBR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        this.motorFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        this.motorFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        this.motorBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        this.motorBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        this.controlHubVoltageSensor = hardwareMap.voltageSensor.iterator().next();
+        this.imu = hardwareMap.get(IMU.class, CONTROL_HUB_IMU);
+        this.imu.initialize(new IMU.Parameters(HUB_ORIENTATION));
+    }
+
     public void mechanumDrive(
             double strafeSpeed,
             double forwardSpeed,
@@ -119,6 +150,15 @@ public class Drivetrain {
         this.motorBL.setVelocity(encoderVelocity);
         this.motorFR.setVelocity(encoderVelocity);
         this.motorBR.setVelocity(encoderVelocity);
+    }
+
+    public double getCurrentVelocity() {
+        double currentFLVelocity = this.motorFL.getVelocity();
+        double currentFRVelocity = this.motorFR.getVelocity();
+        double currentBLVelocity = this.motorBL.getVelocity();
+        double currentBRVelocity = this.motorBR.getVelocity();
+
+        return (currentFLVelocity + currentFRVelocity + currentBRVelocity + currentBLVelocity) / 4;
     }
 
     public double distanceToEncoderCount(double desiredDistanceInInches) {
