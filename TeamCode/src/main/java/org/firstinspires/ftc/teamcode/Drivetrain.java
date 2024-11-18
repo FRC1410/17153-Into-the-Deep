@@ -152,6 +152,7 @@ public class Drivetrain {
         this.motorBR.setVelocity(encoderVelocity);
     }
 
+    //Returns in ticks per second
     public double getCurrentVelocity() {
         double currentFLVelocity = this.motorFL.getVelocity();
         double currentFRVelocity = this.motorFR.getVelocity();
