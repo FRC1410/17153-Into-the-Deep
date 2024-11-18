@@ -28,6 +28,7 @@ public class Auto extends LinearOpMode {
             this.timer.schedule(timerTask, 0, timeInMilliseconds);
             this.telemetry.update();
 
+            // ToDo: this the MAX_VEL value might need to be lowered by a bit
             if(this.drivetrain.getCurrentVelocity() == MAX_VELOCITY) {
                 this.timer.cancel();
                 this.drivetrain.autoDriveStraight(10000000, 0);
