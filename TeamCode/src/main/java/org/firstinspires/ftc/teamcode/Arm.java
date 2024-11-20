@@ -8,7 +8,7 @@ public class Arm {
     private DcMotorEx armMotor;
 
     public void init(HardwareMap hardwareMap) {
-        this.armMotor = hardwareMap.get(DcMotorEx.class, "1");
+        this.armMotor = hardwareMap.get(DcMotorEx.class, "4");
     }
 
     public void runArmMotor(double power) {

@@ -10,8 +10,8 @@ public class LinerarSlides {
     private DcMotorEx rightLinearSlide;
 
     public void init(HardwareMap hardwareMap) {
-        this.leftLinearSlide = hardwareMap.get(DcMotorEx.class, "2");
-        this.rightLinearSlide = hardwareMap.get(DcMotorEx.class, "3");
+        this.leftLinearSlide = hardwareMap.get(DcMotorEx.class, "7");
+        this.rightLinearSlide = hardwareMap.get(DcMotorEx.class, "6");
 
         this.leftLinearSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         this.rightLinearSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
