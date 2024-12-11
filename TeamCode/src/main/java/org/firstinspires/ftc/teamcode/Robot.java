@@ -2,8 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Actions.LiftWrist;
 import org.firstinspires.ftc.teamcode.Actions.Lower;
 import org.firstinspires.ftc.teamcode.Actions.Raise;
 import org.firstinspires.ftc.teamcode.Subsystem.Arm;
@@ -24,9 +24,11 @@ public class Robot extends OpMode {
 
     private final Raise raiseCommand = new Raise(linearSlide, arm, wrist);
     private final Lower lowerCommand = new Lower(linearSlide, arm, wrist);
+    private final LiftWrist liftWristCommand = new LiftWrist(wrist);
 
     private final Toggle raiseToggle = new Toggle();
     private final Toggle clawToggle = new Toggle();
+//    private final Toggle wristToggle = new Toggle();
     
     public void init() {
         this.drivetrain.init(hardwareMap);
@@ -40,13 +42,14 @@ public class Robot extends OpMode {
     public void loop() {
         this.linearSlide.slideData(telemetry);
         this.arm.armTelemetry(telemetry);
+        this.wrist.wristTelemetry(telemetry);
 
         if(raiseToggle.toggleButton(gamepad2.y)) {
             if(wrist.getCurrentState() != RobotStates.Wrist.SCORE) {
                 this.raiseCommand.raise();
             }
         } else {
-            if(this.wrist.getCurrentState() != RobotStates.Wrist.FLOOR) {
+            if(this.arm.getArmState() != RobotStates.Arm.DOWN) {
                 this.lowerCommand.lower();
                 this.linearSlide.setState(RobotStates.LinearSlide.MANUEL);
             }
@@ -56,6 +59,16 @@ public class Robot extends OpMode {
             this.claw.setClawState(RobotStates.Claw.CLOSED);
         } else {
             this.claw.setClawState(RobotStates.Claw.OPEN);
+        }
+
+//        if(this.wristToggle.toggleButton(gamepad2.left_bumper)) {
+//            this.wrist.setState(RobotStates.Wrist.SCORE);
+//        } else {
+//            this.wrist.setState(RobotStates.Wrist.FLOOR);
+//        }
+
+        if(gamepad2.left_bumper) {
+            this.liftWristCommand.liftWrist();
         }
 
         this.drivetrain.mechanumDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);

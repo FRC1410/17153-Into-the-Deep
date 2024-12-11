@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.Subsystem;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
@@ -22,9 +21,12 @@ public class LinearSlide {
     private PIDController leftPIDController = new PIDController(LINEAR_SLIDE_P, LINEAR_SLIDE_I, LINEAR_SLIDE_D);
     private PIDController rightPIDController = new PIDController(LINEAR_SLIDE_P, LINEAR_SLIDE_I, LINEAR_SLIDE_D);
 
-    private RobotStates.LinearSlide currentSlideState = RobotStates.LinearSlide.START_POS;
-    private int slideEncoderValue;
-    private int customEncoderVal;
+    private double leftOutput;
+    private double rightOutput;
+
+    private RobotStates.LinearSlide currentSlideState = RobotStates.LinearSlide.MANUEL;
+    private int desiredSlideHeight;
+    private int customHeight;
 
     public void init(HardwareMap hardwareMap) {
         this.leftSlideMotor = hardwareMap.get(DcMotorEx.class, LEFT_SLIDE_MOTOR_ID);
@@ -55,50 +57,52 @@ public class LinearSlide {
         currentSlideState = desiredState;
     }
 
-    public int getStateEncoderVal(RobotStates.LinearSlide linearSlideState) {
+    public void setDesiredSlideHeight(RobotStates.LinearSlide linearSlideState) {
         switch (linearSlideState) {
             case START_POS:
-                slideEncoderValue = 0;
+                desiredSlideHeight = 0;
                 break;
 
             case MANUEL:
-                slideEncoderValue = customEncoderVal;
+                desiredSlideHeight = customHeight;
                 break;
 
             case HIGH_SCORE:
-                slideEncoderValue = 2_000;
+                desiredSlideHeight = 2_900;
                 break;
         }
-        return slideEncoderValue;
     }
 
     public void goToState(int leftVal, int rightVal) {
         RobotStates.LinearSlide desiredState = this.getCurrentState();
 
-        int desiredStateEncoderVal = this.getStateEncoderVal(desiredState);
+        this.setDesiredSlideHeight(desiredState);
 
-        int currentLeftPos = this.leftSlideMotor.getCurrentPosition() * -1;
-        double leftOutput = leftPIDController.calculate(desiredStateEncoderVal, -currentLeftPos);
+        int currentLeftPos = this.leftSlideMotor.getCurrentPosition();
+        int currentRightPos = this.rightSlideMotor.getCurrentPosition();
 
-        int currentRightPos = this.rightSlideMotor.getCurrentPosition() * -1;
-        double rightOutput = this.rightPIDController.calculate(desiredStateEncoderVal, -currentRightPos);
+        if (desiredState == RobotStates.LinearSlide.MANUEL) {
+            if (customHeight > MAX_LINEAR_SLIDE_EXTENSION) {
+                customHeight = MAX_LINEAR_SLIDE_EXTENSION;
+            } else {
+                customHeight += (rightVal - leftVal) * 100;
+            }
+
+            this.leftOutput = this.leftPIDController.calculate(customHeight, currentLeftPos);
+            this.rightOutput = this.rightPIDController.calculate(customHeight, currentRightPos);
+
+        } else {
+            this.leftOutput = this.leftPIDController.calculate(desiredSlideHeight, currentLeftPos);
+            this.rightOutput = this.rightPIDController.calculate(desiredSlideHeight, currentRightPos);
+        }
 
         this.leftSlideMotor.setPower(leftOutput);
         this.rightSlideMotor.setPower(rightOutput);
 
-        if(desiredState == RobotStates.LinearSlide.MANUEL) {
-            customEncoderVal = rightVal * MAX_LINEAR_SLIDE_EXTENTION - leftVal * MAX_LINEAR_SLIDE_EXTENTION;
-            leftOutput = leftPIDController.calculate(customEncoderVal, -currentLeftPos);
-            rightOutput = this.rightPIDController.calculate(customEncoderVal, -currentRightPos);
-
-            this.leftSlideMotor.setPower(leftOutput);
-            this.rightSlideMotor.setPower(rightOutput);
-        }
-
-        if(Math.abs(desiredStateEncoderVal - currentLeftPos) <= LINEAR_SLIDE_THRESHOLD) {
+        if(Math.abs(desiredSlideHeight - currentLeftPos) <= LINEAR_SLIDE_THRESHOLD) {
             leftSlideMotor.setPower(0);
         }
-        if(Math.abs(desiredStateEncoderVal - currentRightPos) <= LINEAR_SLIDE_THRESHOLD) {
+        if(Math.abs(desiredSlideHeight - currentRightPos) <= LINEAR_SLIDE_THRESHOLD) {
             rightSlideMotor.setPower(0);
         }
     }

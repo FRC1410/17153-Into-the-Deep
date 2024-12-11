@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Util.RobotStates;
 
 public class Wrist {
@@ -14,7 +15,7 @@ public class Wrist {
 
     public void init(HardwareMap hardwareMap) {
         this.wristServo = hardwareMap.get(ServoImplEx.class,"servoWristPosSet");
-        this.wristServo.setDirection(Servo.Direction.FORWARD);
+        this.wristServo.setDirection(Servo.Direction.REVERSE);
     }
 
     public void setState(RobotStates.Wrist desiredWristState) {
@@ -28,11 +29,11 @@ public class Wrist {
     public double getWristPosition(RobotStates.Wrist desiredWristState) {
         switch(desiredWristState) {
             case FLOOR:
-                this.wristPos = 1;
+                this.wristPos = 0;
                 break;
 
             case SCORE:
-                this.wristPos = 0;
+                this.wristPos = 1;
                 break;
         }
         return wristPos;
@@ -42,5 +43,10 @@ public class Wrist {
         RobotStates.Wrist desiredWristState = this.getCurrentState();
         double desiredWristPos = this.getWristPosition(desiredWristState);
         this.wristServo.setPosition(desiredWristPos);
+    }
+
+    public void wristTelemetry(Telemetry telemetry) {
+        RobotStates.Wrist v = this.getCurrentState();
+        telemetry.addData("Wrist pos: ", v);
     }
 }
