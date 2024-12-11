@@ -1,9 +1,6 @@
 package org.firstinspires.ftc.teamcode.Util;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-
 import java.util.concurrent.TimeUnit;
 
 public class Toggle {

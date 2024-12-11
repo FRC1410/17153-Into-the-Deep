@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.util.Range;
 import static org.firstinspires.ftc.teamcode.Util.IDs.*;
 import static org.firstinspires.ftc.teamcode.Util.Constants.*;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Util.RobotStates;
 
 public class Drivetrain {
 
@@ -22,11 +22,13 @@ public class Drivetrain {
     private DcMotorEx motorFR;
     private DcMotorEx motorBL;
     private DcMotorEx motorBR;
-
     private VoltageSensor controlHubVoltageSensor;
     private IMU imu;
+
     private double[] wheelSpeeds = new double[4];
     private double maxPower = 1;
+
+    private RobotStates.Drivetrain currentDrivetrainState = RobotStates.Drivetrain.FULL_SPEED;
 
     public void init(HardwareMap hardwareMap) {
 
@@ -58,30 +60,23 @@ public class Drivetrain {
         this.controlHubVoltageSensor = hardwareMap.voltageSensor.iterator().next();
         this.imu = hardwareMap.get(IMU.class, CONTROL_HUB_IMU);
         this.imu.initialize(new IMU.Parameters(HUB_ORIENTATION));
+
+        this.imu.resetYaw();
     }
 
-//    public void autoInit(HardwareMap hardwareMap) {
-//
-//        this.motorFL.setDirection(REVERSE);
-//        this.motorFR.setDirection(FORWARD);
-//        this.motorBL.setDirection(REVERSE);
-//        this.motorBR.setDirection(REVERSE);
-//
-//        this.motorFL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        this.motorFR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        this.motorBL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        this.motorBR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//
-//        this.motorFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        this.motorFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        this.motorBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        this.motorBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//    }
+    public RobotStates.Drivetrain getDrivetrainState() {
+        return currentDrivetrainState;
+    }
+
+    public void setState(RobotStates.Drivetrain desiredState) {
+        currentDrivetrainState = desiredState;
+    }
 
     public void mechanumDrive(
             double strafeSpeed,
             double forwardSpeed,
-            double turnSpeed)
+            double turnSpeed,
+            boolean switchMode)
     {
 
         Vector2d input = new Vector2d(strafeSpeed, forwardSpeed);
@@ -112,63 +107,36 @@ public class Drivetrain {
             this.wheelSpeeds[3] /= maxPower;
         }
 
-        this.motorFL.setPower(this.wheelSpeeds[0] * 2);
-        this.motorFR.setPower(this.wheelSpeeds[1] * 2);
-        this.motorBL.setPower(this.wheelSpeeds[2] * 2);
-        this.motorBR.setPower(this.wheelSpeeds[3] * 2);
+        if(switchMode) {
+           this.setState(RobotStates.Drivetrain.HALF_SPEED);
+        } else {
+            this.setState(RobotStates.Drivetrain.FULL_SPEED);
+        }
+
+        if(getDrivetrainState() == RobotStates.Drivetrain.HALF_SPEED) {
+            this.motorFL.setPower(this.wheelSpeeds[0]);
+            this.motorFR.setPower(this.wheelSpeeds[1]);
+            this.motorBL.setPower(this.wheelSpeeds[2]);
+            this.motorBR.setPower(this.wheelSpeeds[3]);
+        } else {
+            this.motorFL.setPower(this.wheelSpeeds[0] * 2);
+            this.motorFR.setPower(this.wheelSpeeds[1] * 2);
+            this.motorBL.setPower(this.wheelSpeeds[2] * 2);
+            this.motorBR.setPower(this.wheelSpeeds[3] * 2);
+        }
     }
-
-    // These parameters are in Inches per second
-    public void autoDriveStraight(double forwardDistance, double velocity) {
-        double encoderDistance = this.distanceToEncoderCount(forwardDistance);
-        double encoderVelocity = this.velocityToEncoderCount(velocity);
-
-        int currentFLPosition = this.motorFL.getCurrentPosition();
-        int currentFRPosition = this.motorFR.getCurrentPosition();
-        int currentBLPosition = this.motorBL.getCurrentPosition();
-        int currentBRPosition = this.motorBR.getCurrentPosition();
-
-        this.motorFL.setTargetPosition(currentFLPosition + (int) encoderDistance);
-        this.motorFR.setTargetPosition(currentFRPosition + (int) encoderDistance);
-        this.motorBL.setTargetPosition(currentBLPosition + (int) encoderDistance);
-        this.motorBR.setTargetPosition(currentBRPosition + (int) encoderDistance);
-
-        this.motorFL.setVelocity(encoderVelocity);
-        this.motorBL.setVelocity(encoderVelocity);
-        this.motorFR.setVelocity(encoderVelocity);
-        this.motorBR.setVelocity(encoderVelocity);
-    }
-
-    //Returns in ticks per second
-    public double getCurrentVelocity() {
-        double currentFLVelocity = this.motorFL.getVelocity();
-        double currentFRVelocity = this.motorFR.getVelocity();
-        double currentBLVelocity = this.motorBL.getVelocity();
-        double currentBRVelocity = this.motorBR.getVelocity();
-
-        return (currentFLVelocity + currentFRVelocity + currentBRVelocity + currentBLVelocity) / 4;
-    }
-
-    // In inches
-    public double distanceToEncoderCount(double desiredDistanceInInches) {
-        return desiredDistanceInInches * ENCODER_COUNT_PER_INCH;
-    }
-
-    // In inches per second
-    public double velocityToEncoderCount(double desiredVelocity) {
-        return desiredVelocity * ENCODER_COUNT_PER_INCH;
-    }
-
-    public void drivetrainData(Telemetry telemetry) {
-        telemetry.addData("Front Left: ", this.motorFL.getCurrentPosition() * -1);
-        telemetry.addData("Front Right: ", this.motorFR.getCurrentPosition());
-        telemetry.addData("Back Left: ", this.motorBL.getCurrentPosition() * -1);
-        telemetry.addData("Back Right: ", this.motorBR.getCurrentPosition());
-
-        telemetry.addData("Velocity FL: ", this.motorFL.getVelocity());
-        telemetry.addData("Velocity FR:", this.motorBR.getVelocity());
-        telemetry.addData("Velocity BL: ", this.motorBL.getVelocity());
-        telemetry.addData("Velocity BR: ", this.motorBR.getVelocity());
-        telemetry.update();
-    }
+//    public void drivetrainData(Telemetry telemetry) {
+//        telemetry.addData("Front Left: ", this.motorFL.getCurrentPosition() * -1);
+//        telemetry.addData("Front Right: ", this.motorFR.getCurrentPosition());
+//        telemetry.addData("Back Left: ", this.motorBL.getCurrentPosition() * -1);
+//        telemetry.addData("Back Right: ", this.motorBR.getCurrentPosition());
+//
+//        telemetry.addData("Velocity FL: ", this.motorFL.getVelocity());
+//        telemetry.addData("Velocity FR:", this.motorBR.getVelocity());
+//        telemetry.addData("Velocity BL: ", this.motorBL.getVelocity());
+//        telemetry.addData("Velocity BR: ", this.motorBR.getVelocity());
+//
+//        telemetry.addData("IMU angle: ", this.imu.getRobotYawPitchRollAngles());
+//        telemetry.update();
+//    }
 }

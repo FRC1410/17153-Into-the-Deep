@@ -24,7 +24,7 @@ public class Claw {
         return currentClawState;
     }
 
-    public double getClawPos(RobotStates.Claw desiredClawState) {
+    public void setClawPos(RobotStates.Claw desiredClawState) {
         switch (desiredClawState) {
             case OPEN:
                 this.clawPos = 0.4;
@@ -34,12 +34,11 @@ public class Claw {
                 this.clawPos = 1;
                 break;
         }
-        return clawPos;
     }
 
     public void goToState() {
         RobotStates.Claw desiredClawState = this.getClawState();
-        double desiredClawPos = this.getClawPos(desiredClawState);
-        this.servoClaw.setPosition(desiredClawPos);
+        this.setClawPos(desiredClawState);
+        this.servoClaw.setPosition(clawPos);
     }
 }

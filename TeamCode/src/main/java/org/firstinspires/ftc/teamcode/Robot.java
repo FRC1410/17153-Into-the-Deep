@@ -31,21 +31,21 @@ public class Robot extends OpMode {
 //    private final Toggle wristToggle = new Toggle();
     
     public void init() {
-        this.drivetrain.init(hardwareMap);
-        this.arm.init(hardwareMap);
-        this.linearSlide.init(hardwareMap);
-        this.claw.init(hardwareMap);
-        this.wrist.init(hardwareMap);
+        this.drivetrain.init(this.hardwareMap);
+        this.arm.init(this.hardwareMap);
+        this.linearSlide.init(this.hardwareMap);
+        this.claw.init(this.hardwareMap);
+        this.wrist.init(this.hardwareMap);
     }
 
     @Override
     public void loop() {
-        this.linearSlide.slideData(telemetry);
-        this.arm.armTelemetry(telemetry);
-        this.wrist.wristTelemetry(telemetry);
+        this.linearSlide.slideData(this.telemetry);
+        this.arm.armTelemetry(this.telemetry);
+        this.wrist.wristTelemetry(this.telemetry);
 
-        if(raiseToggle.toggleButton(gamepad2.y)) {
-            if(wrist.getCurrentState() != RobotStates.Wrist.SCORE) {
+        if(raiseToggle.toggleButton(this.gamepad2.y)) {
+            if(this.wrist.getCurrentState() != RobotStates.Wrist.SCORE) {
                 this.raiseCommand.raise();
             }
         } else {
@@ -55,7 +55,7 @@ public class Robot extends OpMode {
             }
         }
 
-        if(this.clawToggle.toggleButton(gamepad2.right_bumper)) {
+        if(this.clawToggle.toggleButton(this.gamepad2.right_bumper)) {
             this.claw.setClawState(RobotStates.Claw.CLOSED);
         } else {
             this.claw.setClawState(RobotStates.Claw.OPEN);
@@ -67,13 +67,21 @@ public class Robot extends OpMode {
 //            this.wrist.setState(RobotStates.Wrist.FLOOR);
 //        }
 
-        if(gamepad2.left_bumper) {
+        if(this.gamepad2.left_bumper) {
             this.liftWristCommand.liftWrist();
         }
 
-        this.drivetrain.mechanumDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
+        this.drivetrain.mechanumDrive(
+                this.gamepad1.left_stick_x,
+                this.gamepad1.left_stick_y,
+                this.gamepad1.right_stick_x,
+                this.gamepad1.a
+        );
 
-        this.linearSlide.goToState((int) gamepad2.right_trigger, (int) gamepad2.left_trigger);
+        this.linearSlide.goToState(
+                (int) this.gamepad2.right_trigger,
+                (int) this.gamepad2.left_trigger
+        );
         this.arm.goToState();
 
         this.wrist.goToState();

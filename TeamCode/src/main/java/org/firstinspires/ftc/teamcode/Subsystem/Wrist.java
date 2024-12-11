@@ -26,7 +26,7 @@ public class Wrist {
         return currentWristState;
     }
 
-    public double getWristPosition(RobotStates.Wrist desiredWristState) {
+    public void getDesiredWristPos(RobotStates.Wrist desiredWristState) {
         switch(desiredWristState) {
             case FLOOR:
                 this.wristPos = 0;
@@ -36,13 +36,12 @@ public class Wrist {
                 this.wristPos = 1;
                 break;
         }
-        return wristPos;
     }
 
     public void goToState() {
         RobotStates.Wrist desiredWristState = this.getCurrentState();
-        double desiredWristPos = this.getWristPosition(desiredWristState);
-        this.wristServo.setPosition(desiredWristPos);
+        this.getDesiredWristPos(desiredWristState);
+        this.wristServo.setPosition(wristPos);
     }
 
     public void wristTelemetry(Telemetry telemetry) {

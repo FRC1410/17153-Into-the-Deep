@@ -18,7 +18,7 @@ public class Arm {
     private final PIDController armPIDController = new PIDController(ARM_P, ARM_I, ARM_D);
     private RobotStates.Arm currentArmState = RobotStates.Arm.DOWN;
 
-    private int armEncoderValue;
+    private int desiredAngle;
 
     public void init(HardwareMap hardwareMap) {
         this.armMotor = hardwareMap.get(DcMotorEx.class, ARM_MOTOR_ID);
@@ -38,29 +38,28 @@ public class Arm {
         return currentArmState;
     }
 
-    public int getArmStateEncoder(RobotStates.Arm desiredState) {
+    public void setArmAngle(RobotStates.Arm desiredState) {
         switch (desiredState) {
             case DOWN:
-                armEncoderValue = 0;
+                desiredAngle = 0;
                 break;
 
             case UP:
-                armEncoderValue = 1600;
+                desiredAngle = 1600;
                 break;
         }
-        return armEncoderValue;
     }
 
     public void goToState() {
         RobotStates.Arm desiredState = this.getArmState();
-        int desiredEncoderValue = this.getArmStateEncoder(desiredState);
+        this.setArmAngle(desiredState);
         int currentArmPos = this.armMotor.getCurrentPosition();
 
-        double armOutput = armPIDController.calculate(desiredEncoderValue, currentArmPos);
+        double armOutput = armPIDController.calculate(desiredAngle, currentArmPos);
 
         this.armMotor.setPower(armOutput);
 
-        if(Math.abs(desiredEncoderValue - currentArmPos) <= ARM_THRESHOLD) {
+        if(Math.abs(desiredAngle - currentArmPos) <= ARM_THRESHOLD) {
             this.armMotor.setPower(0);
         }
     }
