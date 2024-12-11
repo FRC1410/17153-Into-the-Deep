@@ -10,7 +10,7 @@ public class Tuning {
     public static double ARM_I = 0;
     //0.0002
     public static double ARM_D = 0.0002;
-    public static double ARM_THRESHOLD = 9;
+    public static double ARM_THRESHOLD = 5;
 
     public static double CLAW_P = 0;
     public static double CLAW_I = 0;
