@@ -12,6 +12,7 @@ public class LiftWrist {
 
     public LiftWrist(Wrist wrist) {
         this.wrist = wrist;
+        this.wrist.setState(RobotStates.Wrist.SCORE);
     }
 
     public void liftWrist() {
@@ -21,7 +22,7 @@ public class LiftWrist {
         } else {
             this.wrist.setState(RobotStates.Wrist.SCORE);
 
-            if(timer.seconds() > 1) {
+            if(timer.seconds() > 0.5) {
                 this.wrist.setState(RobotStates.Wrist.FLOOR);
                 hasReset = false;
             }

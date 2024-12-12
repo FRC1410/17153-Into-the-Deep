@@ -84,9 +84,13 @@ public class LinearSlide {
         if (desiredState == RobotStates.LinearSlide.MANUEL) {
             if (customHeight > MAX_LINEAR_SLIDE_EXTENSION) {
                 customHeight = MAX_LINEAR_SLIDE_EXTENSION;
-            } else {
-                customHeight += (rightVal - leftVal) * 100;
             }
+
+            if(customHeight < 0) {
+                customHeight = 0;
+            }
+
+            customHeight += (rightVal - leftVal) * 100;
 
             this.leftOutput = this.leftPIDController.calculate(customHeight, currentLeftPos);
             this.rightOutput = this.rightPIDController.calculate(customHeight, currentRightPos);

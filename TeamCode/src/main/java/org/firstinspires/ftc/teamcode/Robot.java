@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Actions.LiftWrist;
 import org.firstinspires.ftc.teamcode.Actions.Lower;
@@ -28,7 +29,7 @@ public class Robot extends OpMode {
 
     private final Toggle raiseToggle = new Toggle();
     private final Toggle clawToggle = new Toggle();
-//    private final Toggle wristToggle = new Toggle();
+    private final Toggle wristToggle = new Toggle();
     
     public void init() {
         this.drivetrain.init(this.hardwareMap);
@@ -44,18 +45,19 @@ public class Robot extends OpMode {
         this.arm.armTelemetry(this.telemetry);
         this.wrist.wristTelemetry(this.telemetry);
 
-        if(raiseToggle.toggleButton(this.gamepad2.y)) {
-            if(this.wrist.getCurrentState() != RobotStates.Wrist.SCORE) {
-                this.raiseCommand.raise();
-            }
+        if(this.gamepad2.y) {
+            new Raise(linearSlide, arm, wrist).raise();
         } else {
-            if(this.arm.getArmState() != RobotStates.Arm.DOWN) {
-                this.lowerCommand.lower();
-                this.linearSlide.setState(RobotStates.LinearSlide.MANUEL);
-            }
+//            new Lower(linearSlide, arm, wrist).lower();
+//            this.linearSlide.setState(RobotStates.LinearSlide.MANUEL);
         }
 
-        if(this.clawToggle.toggleButton(this.gamepad2.right_bumper)) {
+        if(this.gamepad2.right_bumper) {
+            new Lower(linearSlide, arm, wrist).lower();
+            this.linearSlide.setState(RobotStates.LinearSlide.MANUEL);
+        }
+
+        if(this.clawToggle.toggleButton(this.gamepad1.right_bumper)) {
             this.claw.setClawState(RobotStates.Claw.CLOSED);
         } else {
             this.claw.setClawState(RobotStates.Claw.OPEN);
@@ -67,8 +69,10 @@ public class Robot extends OpMode {
 //            this.wrist.setState(RobotStates.Wrist.FLOOR);
 //        }
 
-        if(this.gamepad2.left_bumper) {
-            this.liftWristCommand.liftWrist();
+        if(wristToggle.toggleButton(this.gamepad2.left_bumper)) {
+            this.wrist.setState(RobotStates.Wrist.SCORE);
+        } else {
+            this.wrist.setState(RobotStates.Wrist.FLOOR);
         }
 
         this.drivetrain.mechanumDrive(

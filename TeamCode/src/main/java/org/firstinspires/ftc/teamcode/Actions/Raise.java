@@ -19,20 +19,16 @@ public class Raise {
         this.linearSlide = linearSlide;
         this.arm = arm;
         this.wrist = wrist;
+
+        this.timer.reset();
     }
 
     public void raise() {
-        if(!hasReset) {
-            this.timer.reset();
-            hasReset = true;
-        } else {
             this.arm.setState(RobotStates.Arm.UP);
             this.linearSlide.setState(RobotStates.LinearSlide.HIGH_SCORE);
 
-            if (this.timer.seconds() >= 1.1) {
+            if (this.timer.seconds() >= 0.5) {
                 wrist.setState(RobotStates.Wrist.SCORE);
-                hasReset = false;
-            }
         }
     }
 }

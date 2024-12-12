@@ -18,23 +18,20 @@ public class Lower {
         this.linearSlide = linearSlide;
         this.arm = arm;
         this.wrist = wrist;
+
+        this.timer.reset();
     }
 
     public void lower() {
-        if (!hasReset) {
-            this.timer.reset();
-            hasReset = true;
-        } else {
             this.linearSlide.setState(RobotStates.LinearSlide.START_POS);
-            this.wrist.setState(RobotStates.Wrist.FLOOR);
 
-            if (this.timer.seconds() >= 1.1) {
+            if (this.timer.seconds() > 1.1) {
                 this.wrist.setState(RobotStates.Wrist.SCORE);
-            }
-            if(this.timer.seconds() >= 1.5) {
                 this.arm.setState(RobotStates.Arm.DOWN);
-                hasReset = false;
+            }
+
+            if(this.timer.seconds() > 2) {
+                this.arm.setState(RobotStates.Arm.DOWN);
             }
         }
-    }
 }
