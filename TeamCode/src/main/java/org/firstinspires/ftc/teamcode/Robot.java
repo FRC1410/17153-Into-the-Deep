@@ -25,7 +25,6 @@ public class Robot extends OpMode {
 
     private final Raise raiseCommand = new Raise(linearSlide, arm, wrist);
     private final Lower lowerCommand = new Lower(linearSlide, arm, wrist);
-    private final LiftWrist liftWristCommand = new LiftWrist(wrist);
 
     private final Toggle raiseToggle = new Toggle();
     private final Toggle clawToggle = new Toggle();
@@ -45,17 +44,21 @@ public class Robot extends OpMode {
         this.arm.armTelemetry(this.telemetry);
         this.wrist.wristTelemetry(this.telemetry);
 
-        if(this.gamepad2.y) {
+        if(raiseToggle.toggleButton(gamepad2.y)) {
             new Raise(linearSlide, arm, wrist).raise();
         } else {
-//            new Lower(linearSlide, arm, wrist).lower();
-//            this.linearSlide.setState(RobotStates.LinearSlide.MANUEL);
-        }
-
-        if(this.gamepad2.right_bumper) {
             new Lower(linearSlide, arm, wrist).lower();
             this.linearSlide.setState(RobotStates.LinearSlide.MANUEL);
         }
+
+//        if(this.gamepad2.y) {
+//            new Raise(linearSlide, arm, wrist).raise();
+//        }
+//
+//        if(this.gamepad2.right_bumper) {
+//            new Lower(linearSlide, arm, wrist).lower();
+//            this.linearSlide.setState(RobotStates.LinearSlide.MANUEL);
+//        }
 
         if(this.clawToggle.toggleButton(this.gamepad1.right_bumper)) {
             this.claw.setClawState(RobotStates.Claw.CLOSED);
@@ -63,11 +66,6 @@ public class Robot extends OpMode {
             this.claw.setClawState(RobotStates.Claw.OPEN);
         }
 
-//        if(this.wristToggle.toggleButton(gamepad2.left_bumper)) {
-//            this.wrist.setState(RobotStates.Wrist.SCORE);
-//        } else {
-//            this.wrist.setState(RobotStates.Wrist.FLOOR);
-//        }
 
         if(wristToggle.toggleButton(this.gamepad2.left_bumper)) {
             this.wrist.setState(RobotStates.Wrist.SCORE);

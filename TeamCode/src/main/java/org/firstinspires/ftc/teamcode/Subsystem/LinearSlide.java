@@ -28,6 +28,8 @@ public class LinearSlide {
     private int desiredSlideHeight;
     private int customHeight;
 
+    public static boolean hasReachedState;
+
     public void init(HardwareMap hardwareMap) {
         this.leftSlideMotor = hardwareMap.get(DcMotorEx.class, LEFT_SLIDE_MOTOR_ID);
         this.rightSlideMotor = hardwareMap.get(DcMotorEx.class, RIGHT_SLIDE_MOTOR_ID);
@@ -74,6 +76,7 @@ public class LinearSlide {
     }
 
     public void goToState(int leftVal, int rightVal) {
+        hasReachedState = false;
         RobotStates.LinearSlide desiredState = this.getCurrentState();
 
         this.setDesiredSlideHeight(desiredState);
@@ -95,6 +98,14 @@ public class LinearSlide {
             this.leftOutput = this.leftPIDController.calculate(customHeight, currentLeftPos);
             this.rightOutput = this.rightPIDController.calculate(customHeight, currentRightPos);
 
+            if(Math.abs(customHeight - currentLeftPos) <= LINEAR_SLIDE_THRESHOLD) {
+                this.leftSlideMotor.setPower(0);
+            }
+
+            if(Math.abs(customHeight - currentRightPos) <= LINEAR_SLIDE_THRESHOLD) {
+                this.rightSlideMotor.setPower(0);
+            }
+
         } else {
             this.leftOutput = this.leftPIDController.calculate(desiredSlideHeight, currentLeftPos);
             this.rightOutput = this.rightPIDController.calculate(desiredSlideHeight, currentRightPos);
@@ -104,10 +115,11 @@ public class LinearSlide {
         this.rightSlideMotor.setPower(rightOutput);
 
         if(Math.abs(desiredSlideHeight - currentLeftPos) <= LINEAR_SLIDE_THRESHOLD) {
-            leftSlideMotor.setPower(0);
+            this.leftSlideMotor.setPower(0);
+            hasReachedState = true;
         }
         if(Math.abs(desiredSlideHeight - currentRightPos) <= LINEAR_SLIDE_THRESHOLD) {
-            rightSlideMotor.setPower(0);
+            this.rightSlideMotor.setPower(0);
         }
     }
 

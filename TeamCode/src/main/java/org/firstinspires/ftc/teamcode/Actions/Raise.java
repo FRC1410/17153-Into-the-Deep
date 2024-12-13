@@ -13,21 +13,20 @@ public class Raise {
     private final Wrist wrist;
 
     private final ElapsedTime timer = new ElapsedTime();
-    boolean hasReset = false;
 
     public Raise(LinearSlide linearSlide, Arm arm, Wrist wrist) {
         this.linearSlide = linearSlide;
         this.arm = arm;
         this.wrist = wrist;
 
-        this.timer.reset();
+//        LinearSlide.hasReachedState = false;
     }
 
     public void raise() {
             this.arm.setState(RobotStates.Arm.UP);
             this.linearSlide.setState(RobotStates.LinearSlide.HIGH_SCORE);
 
-            if (this.timer.seconds() >= 0.5) {
+            if (LinearSlide.hasReachedState) {
                 wrist.setState(RobotStates.Wrist.SCORE);
         }
     }
