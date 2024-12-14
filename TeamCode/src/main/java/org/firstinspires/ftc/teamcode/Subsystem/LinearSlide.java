@@ -24,7 +24,7 @@ public class LinearSlide {
     private double leftOutput;
     private double rightOutput;
 
-    private RobotStates.LinearSlide currentSlideState = RobotStates.LinearSlide.MANUEL;
+    private static RobotStates.LinearSlide currentSlideState = RobotStates.LinearSlide.MANUEL;
     private int desiredSlideHeight;
     private int customHeight;
 
@@ -52,7 +52,7 @@ public class LinearSlide {
         this.rightPIDController = new PIDController(LINEAR_SLIDE_P, LINEAR_SLIDE_I, LINEAR_SLIDE_D);
     }
 
-    public RobotStates.LinearSlide getCurrentState() {
+    public static RobotStates.LinearSlide getCurrentState() {
         return currentSlideState;
     }
     public void setState(RobotStates.LinearSlide desiredState) {
@@ -70,7 +70,7 @@ public class LinearSlide {
                 break;
 
             case HIGH_SCORE:
-                desiredSlideHeight = 2_900;
+                desiredSlideHeight = 2_950;
                 break;
         }
     }

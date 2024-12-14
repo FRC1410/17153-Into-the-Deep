@@ -45,7 +45,7 @@ public class Arm {
                 break;
 
             case UP:
-                desiredAngle = 1600;
+                desiredAngle = 1700;
                 break;
         }
     }

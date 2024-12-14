@@ -43,6 +43,7 @@ public class Robot extends OpMode {
         this.linearSlide.slideData(this.telemetry);
         this.arm.armTelemetry(this.telemetry);
         this.wrist.wristTelemetry(this.telemetry);
+        this.claw.clawTelemetry(this.telemetry);
 
         if(raiseToggle.toggleButton(gamepad2.y)) {
             new Raise(linearSlide, arm, wrist).raise();

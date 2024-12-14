@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Actions;
 
+import com.acmerobotics.roadrunner.Line;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Subsystem.Arm;
@@ -21,8 +22,9 @@ public class Lower {
     }
 
     public void lower() {
+            //LinearSlide.hasReachedState = false;
             this.linearSlide.setState(RobotStates.LinearSlide.START_POS);
-            this.wrist.setState(RobotStates.Wrist.FLOOR);
+            //this.wrist.setState(RobotStates.Wrist.FLOOR);
 
             if(LinearSlide.hasReachedState) {
                 this.arm.setState(RobotStates.Arm.DOWN);

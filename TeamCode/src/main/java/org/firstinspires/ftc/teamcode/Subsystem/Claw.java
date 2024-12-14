@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Util.RobotStates;
 
 public class Claw {
@@ -41,4 +42,11 @@ public class Claw {
         this.setClawPos(desiredClawState);
         this.servoClaw.setPosition(clawPos);
     }
+
+    public void clawTelemetry(Telemetry telemetry) {
+        RobotStates.Claw v = this.getClawState();
+        telemetry.addData("Claw pos: ", v);
+    }
 }
+
+
