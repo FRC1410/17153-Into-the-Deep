@@ -25,8 +25,8 @@ public class Robot extends OpMode {
 
     private final Raise raiseCommand = new Raise(linearSlide, arm, wrist);
     private final Lower lowerCommand = new Lower(linearSlide, arm, wrist);
-    private final InitClimb initClimbCommand = new InitClimb(linearSlide, arm, wrist);
-    private final DoClimb doClimbCommand = new DoClimb(linearSlide, arm, wrist);
+//    private final InitClimb initClimbCommand = new InitClimb(linearSlide, arm, wrist);
+//    private final DoClimb doClimbCommand = new DoClimb(linearSlide, arm, wrist);
 
     private final Toggle raiseToggle = new Toggle();
     private final Toggle clawToggle = new Toggle();
@@ -53,16 +53,14 @@ public class Robot extends OpMode {
         } else {
             new Lower(linearSlide, arm, wrist).lower();
             this.linearSlide.setState(RobotStates.LinearSlide.MANUEL);
+            if(climbToggle.toggleButton(gamepad2.a)) {
+                new InitClimb(linearSlide, arm).climb();
+            }
         }
 
-//        if(this.gamepad2.y) {
-//            new Raise(linearSlide, arm, wrist).raise();
-//        }
-//
-//        if(this.gamepad2.right_bumper) {
-//            new Lower(linearSlide, arm, wrist).lower();
-//            this.linearSlide.setState(RobotStates.LinearSlide.MANUEL);
-//        }
+        if(this.gamepad2.x) {
+            new DoClimb(linearSlide, arm);
+        }
 
         if(this.clawToggle.toggleButton(this.gamepad1.right_bumper)) {
             this.claw.setClawState(RobotStates.Claw.CLOSED);
@@ -77,11 +75,11 @@ public class Robot extends OpMode {
             this.wrist.setState(RobotStates.Wrist.FLOOR);
         }
 
-        if(climbToggle.toggleButton(this.gamepad2.a)) {
-            this.initClimbCommand.climb();
-        } else {
-            this.doClimbCommand.climb();
-        }
+//        if(climbToggle.toggleButton(gamepad2.a)) {
+//            new InitClimb(linearSlide, arm).climb();
+//        } else {
+//            new DoClimb(linearSlide, arm).climb();
+//        }
 
         this.drivetrain.mechanumDrive(
                 this.gamepad1.left_stick_x,

@@ -35,6 +35,10 @@ public class Wrist {
             case SCORE:
                 this.wristPos = 1;
                 break;
+
+            case SAFE:
+                this.wristPos = 0.5;
+                break;
         }
     }
 

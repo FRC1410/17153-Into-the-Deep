@@ -22,7 +22,8 @@ public class RobotStates {
 
     public enum Wrist {
         FLOOR,
-        SCORE
+        SCORE,
+        SAFE
     }
 
     public enum Drivetrain {

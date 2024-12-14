@@ -32,6 +32,7 @@ public class Arm {
     }
 
     public void setState(RobotStates.Arm desiredState) {
+        hasReachedState = false;
         currentArmState = desiredState;
     }
 
