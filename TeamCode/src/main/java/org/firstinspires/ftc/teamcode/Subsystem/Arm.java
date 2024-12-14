@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.Util.RobotStates;
 import static org.firstinspires.ftc.teamcode.Util.Tuning.*;
 
 public class Arm {
+    public static boolean hasReachedState;
     private DcMotorEx armMotor;
     private final PIDController armPIDController = new PIDController(ARM_P, ARM_I, ARM_D);
     private RobotStates.Arm currentArmState = RobotStates.Arm.DOWN;
@@ -47,6 +48,14 @@ public class Arm {
             case UP:
                 desiredAngle = 1700;
                 break;
+
+            case CLIMB_INIT:
+                desiredAngle = 810;
+                break;
+
+            case CLIMB_FINAL:
+                desiredAngle = 0;
+                break;
         }
     }
 
@@ -61,6 +70,7 @@ public class Arm {
 
         if(Math.abs(desiredAngle - currentArmPos) <= ARM_THRESHOLD) {
             this.armMotor.setPower(0);
+            hasReachedState = true;
         }
     }
 

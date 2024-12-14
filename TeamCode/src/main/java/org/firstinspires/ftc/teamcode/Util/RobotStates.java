@@ -3,7 +3,9 @@ package org.firstinspires.ftc.teamcode.Util;
 public class RobotStates {
     public enum Arm {
         DOWN,
-        UP
+        UP,
+        CLIMB_INIT,
+        CLIMB_FINAL
     }
 
     public enum Claw {
@@ -14,7 +16,8 @@ public class RobotStates {
     public enum LinearSlide {
         START_POS,
         MANUEL,
-        HIGH_SCORE
+        HIGH_SCORE,
+        CLIMB
     }
 
     public enum Wrist {
