@@ -126,8 +126,8 @@ public class LinearSlide {
     public void setSlidePower(float leftTrigger, float rightTrigger) {
         double voltageCorrection = 12 / controlHubVoltageSensor.getVoltage();
 
-        this.leftSlideMotor.setPower((rightTrigger - leftTrigger) * voltageCorrection);
-        this.rightSlideMotor.setPower((rightTrigger - leftTrigger) * voltageCorrection);
+        this.leftSlideMotor.setPower((leftTrigger - rightTrigger) * voltageCorrection);
+        this.rightSlideMotor.setPower((leftTrigger - rightTrigger) * voltageCorrection);
     }
 
     public void slideData(Telemetry telemetry) {
