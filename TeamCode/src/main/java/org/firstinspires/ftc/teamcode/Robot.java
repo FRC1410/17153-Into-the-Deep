@@ -2,10 +2,9 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Actions.Climb;
-import org.firstinspires.ftc.teamcode.Actions.LiftWrist;
+import org.firstinspires.ftc.teamcode.Actions.DoClimb;
+import org.firstinspires.ftc.teamcode.Actions.InitClimb;
 import org.firstinspires.ftc.teamcode.Actions.Lower;
 import org.firstinspires.ftc.teamcode.Actions.Raise;
 import org.firstinspires.ftc.teamcode.Subsystem.Arm;
@@ -26,7 +25,8 @@ public class Robot extends OpMode {
 
     private final Raise raiseCommand = new Raise(linearSlide, arm, wrist);
     private final Lower lowerCommand = new Lower(linearSlide, arm, wrist);
-    private final Climb climbCommand = new Climb(linearSlide, arm, wrist);
+    private final InitClimb initClimbCommand = new InitClimb(linearSlide, arm, wrist);
+    private final DoClimb doClimbCommand = new DoClimb(linearSlide, arm, wrist);
 
     private final Toggle raiseToggle = new Toggle();
     private final Toggle clawToggle = new Toggle();
@@ -78,7 +78,9 @@ public class Robot extends OpMode {
         }
 
         if(climbToggle.toggleButton(this.gamepad2.a)) {
-            this.climbCommand.climb();
+            this.initClimbCommand.climb();
+        } else {
+            this.doClimbCommand.climb();
         }
 
         this.drivetrain.mechanumDrive(

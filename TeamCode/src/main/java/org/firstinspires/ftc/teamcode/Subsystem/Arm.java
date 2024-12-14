@@ -52,10 +52,6 @@ public class Arm {
             case CLIMB_INIT:
                 desiredAngle = 810;
                 break;
-
-            case CLIMB_FINAL:
-                desiredAngle = 0;
-                break;
         }
     }
 

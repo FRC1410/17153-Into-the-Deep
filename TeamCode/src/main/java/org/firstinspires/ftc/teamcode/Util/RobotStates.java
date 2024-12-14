@@ -5,7 +5,7 @@ public class RobotStates {
         DOWN,
         UP,
         CLIMB_INIT,
-        CLIMB_FINAL
+
     }
 
     public enum Claw {
