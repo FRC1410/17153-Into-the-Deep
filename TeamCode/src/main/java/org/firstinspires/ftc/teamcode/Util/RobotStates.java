@@ -15,6 +15,7 @@ public class RobotStates {
 
     public enum LinearSlide {
         START_POS,
+        MID_SCORE,
         MANUEL,
         HIGH_SCORE,
         CLIMB

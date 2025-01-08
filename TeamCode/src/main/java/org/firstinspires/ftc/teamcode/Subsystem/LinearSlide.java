@@ -69,6 +69,10 @@ public class LinearSlide {
                 desiredSlideHeight = customHeight;
                 break;
 
+            case MID_SCORE:
+                desiredSlideHeight = 800;
+                break;
+
             case HIGH_SCORE:
                 desiredSlideHeight = 2_950;
                 break;
