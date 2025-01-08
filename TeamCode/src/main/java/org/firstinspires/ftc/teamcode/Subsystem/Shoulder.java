@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Util.RobotStates;
 
 import static org.firstinspires.ftc.teamcode.Util.Tuning.*;
 
-public class Arm {
+public class Shoulder {
     public static boolean hasReachedState;
     private DcMotorEx armMotor;
     private final PIDController armPIDController = new PIDController(ARM_P, ARM_I, ARM_D);

@@ -17,6 +17,7 @@ public class RobotStates {
         START_POS,
         MANUEL,
         HIGH_SCORE,
+        LOW_SCORE,
         CLIMB
     }
 
