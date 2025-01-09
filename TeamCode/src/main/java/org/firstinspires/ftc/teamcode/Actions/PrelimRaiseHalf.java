@@ -7,14 +7,14 @@ import org.firstinspires.ftc.teamcode.Subsystem.Shoulder;
 import org.firstinspires.ftc.teamcode.Subsystem.Wrist;
 import org.firstinspires.ftc.teamcode.Util.RobotStates;
 
-public class RaiseHalf {
+public class PrelimRaiseHalf {
     private final LinearSlide linearSlide;
     private final Shoulder shoulder;
     private final Wrist wrist;
 
     private final ElapsedTime timer = new ElapsedTime();
 
-    public RaiseHalf(LinearSlide linearSlide, Shoulder shoulder, Wrist wrist) {
+    public PrelimRaiseHalf(LinearSlide linearSlide, Shoulder shoulder, Wrist wrist) {
         this.linearSlide = linearSlide;
         this.shoulder = shoulder;
         this.wrist = wrist;

@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Actions.DoClimb;
 import org.firstinspires.ftc.teamcode.Actions.InitClimb;
 import org.firstinspires.ftc.teamcode.Actions.Lower;
-import org.firstinspires.ftc.teamcode.Actions.RaiseFull;
+import org.firstinspires.ftc.teamcode.Actions.Raise;
 import org.firstinspires.ftc.teamcode.Subsystem.Shoulder;
 import org.firstinspires.ftc.teamcode.Subsystem.Claw;
 import org.firstinspires.ftc.teamcode.Subsystem.Drivetrain;
@@ -23,7 +23,7 @@ public class Robot extends OpMode {
     private final Claw claw = new Claw();
     private final Wrist wrist = new Wrist();
 
-    private final RaiseFull raiseFullCommand = new RaiseFull(linearSlide, shoulder, wrist);
+    private final Raise raiseFullCommand = new Raise(linearSlide, shoulder, wrist);
     private final Lower lowerCommand = new Lower(linearSlide, shoulder, wrist);
 //    private final InitClimb initClimbCommand = new InitClimb(linearSlide, arm, wrist);
 //    private final DoClimb doClimbCommand = new DoClimb(linearSlide, arm, wrist);
@@ -49,7 +49,7 @@ public class Robot extends OpMode {
         this.claw.clawTelemetry(this.telemetry);
 
         if(raiseToggle.toggleButton(gamepad2.y)) {
-            new RaiseFull(linearSlide, shoulder, wrist).raise();
+            new Raise(linearSlide, shoulder, wrist).raise();
         } else {
             new Lower(linearSlide, shoulder, wrist).lower();
             this.linearSlide.setState(RobotStates.LinearSlide.MANUEL);

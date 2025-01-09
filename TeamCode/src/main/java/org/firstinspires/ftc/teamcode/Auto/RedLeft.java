@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Actions.Lower;
-import org.firstinspires.ftc.teamcode.Actions.RaiseFull;
+import org.firstinspires.ftc.teamcode.Actions.Raise;
 import org.firstinspires.ftc.teamcode.Subsystem.Shoulder;
 import org.firstinspires.ftc.teamcode.Subsystem.Claw;
 import org.firstinspires.ftc.teamcode.Subsystem.Drivetrain;
@@ -22,7 +22,7 @@ public class RedLeft extends LinearOpMode {
     private final Claw claw = new Claw();
     private final Wrist wrist = new Wrist();
 
-    private final RaiseFull raiseFullCommand = new RaiseFull(linearSlide, shoulder, wrist);
+    private final Raise raiseFullCommand = new Raise(linearSlide, shoulder, wrist);
     private final Lower lowerCommand = new Lower(linearSlide, shoulder, wrist);
 
     @Override
@@ -38,7 +38,7 @@ public class RedLeft extends LinearOpMode {
 
 
 
-        new RaiseFull(linearSlide, shoulder, wrist).raise();
+        new Raise(linearSlide, shoulder, wrist).raise();
         Thread.sleep(300);
         new Lower(linearSlide, shoulder, wrist).lower();
         Thread.sleep(300);
