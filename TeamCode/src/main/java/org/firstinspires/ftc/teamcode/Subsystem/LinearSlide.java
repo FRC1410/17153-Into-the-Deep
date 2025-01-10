@@ -74,11 +74,12 @@ public class LinearSlide {
                 break;
 
             case LOW_SCORE:
-                desiredSlideHeight = 300;
+                desiredSlideHeight = 450;
                 break;
 
             case CLIMB:
-                desiredSlideHeight = 1545;
+                desiredSlideHeight = 1_545;
+                break;
         }
     }
 

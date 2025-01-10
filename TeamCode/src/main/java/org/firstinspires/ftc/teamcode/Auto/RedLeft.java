@@ -10,13 +10,18 @@ import org.firstinspires.ftc.teamcode.Subsystem.Claw;
 import org.firstinspires.ftc.teamcode.Subsystem.Drivetrain;
 import org.firstinspires.ftc.teamcode.Subsystem.LinearSlide;
 import org.firstinspires.ftc.teamcode.Subsystem.Wrist;
+import org.firstinspires.ftc.teamcode.Auto.*;
+import org.firstinspires.ftc.teamcode.Subsystem.Shoulder;
+import org.firstinspires.ftc.teamcode.Util.RobotStates;
+import org.firstinspires.ftc.teamcode.Subsystem.LinearSlide;
+import org.firstinspires.ftc.teamcode.Subsystem.Wrist;
 
 
 @Autonomous(name="Robot: Red Left side Auto", group="Auto")
 
 public class RedLeft extends LinearOpMode {
 
-    private final Drivetrain drivetrain = new Drivetrain();
+    private final AutoDriveTrain drivetrain = new AutoDriveTrain();
     private final Shoulder shoulder = new Shoulder();
     private final LinearSlide linearSlide = new LinearSlide();
     private final Claw claw = new Claw();
@@ -28,22 +33,27 @@ public class RedLeft extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        waitForStart();
-
         this.drivetrain.init(this.hardwareMap);
         this.shoulder.init(this.hardwareMap);
         this.linearSlide.init(this.hardwareMap);
         this.claw.init(this.hardwareMap);
         this.wrist.init(this.hardwareMap);
 
+        waitForStart();
 
-
-        new Raise(linearSlide, shoulder, wrist).raise();
-        Thread.sleep(300);
-        new Lower(linearSlide, shoulder, wrist).lower();
-        Thread.sleep(300);
-        this.drivetrain.mechanumDrive(0,0.5,0,false);
-        Thread.sleep(300);
+//        this.shoulder.setState(RobotStates.Arm.UP);
+//        Thread.sleep(100);
+//        this.linearSlide.setState(RobotStates.LinearSlide.HIGH_SCORE);
+//        Thread.sleep(300);
+//        this.linearSlide.setState(RobotStates.LinearSlide.START_POS);
+//        Thread.sleep(100);
+//        this.shoulder.setState(RobotStates.Arm.DOWN);
+//        Thread.sleep(300);
+//        drivetrain.drive(7,0,0);
+//        Thread.sleep(300);
+        drivetrain.drive(0,1,0);
+        Thread.sleep(1900);
+        drivetrain.drive(0,0,0);
 
     }
 }
