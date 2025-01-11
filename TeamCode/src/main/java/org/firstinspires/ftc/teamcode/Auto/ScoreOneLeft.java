@@ -42,19 +42,8 @@ public class ScoreOneLeft extends LinearOpMode {
         waitForStart();
 
 
-//        this.claw.setClawPos(RobotStates.Claw.CLOSED);
-//        drivetrain.drive(0,-0.2,-0.8);
-        Thread.sleep(500);
-        drivetrain.drive(0,0,0);
+
         this.shoulder.setState(RobotStates.Arm.UP);
-        Thread.sleep(100);
-        this.linearSlide.setState(RobotStates.LinearSlide.HIGH_SCORE);
-        Thread.sleep(300);
-        this.wrist.setState(RobotStates.Wrist.SCORE);
-        Thread.sleep(200);
-//        this.claw.setClawPos(RobotStates.Claw.OPEN);
-//        Thread.sleep(200);
-        this.linearSlide.setState(RobotStates.LinearSlide.START_POS);
         Thread.sleep(100);
         this.shoulder.setState(RobotStates.Arm.DOWN);
     }
