@@ -12,6 +12,8 @@ public class Claw {
     private RobotStates.Claw currentClawState = RobotStates.Claw.OPEN;
     private double clawPos;
 
+    private double clawPosCheck;
+
     public void init(HardwareMap hardwareMap) {
         this.servoClaw = hardwareMap.get(ServoImplEx.class,"servoClawPosSet");
         this.servoClaw.setDirection(Servo.Direction.FORWARD);
@@ -46,6 +48,21 @@ public class Claw {
     public void clawTelemetry(Telemetry telemetry) {
         RobotStates.Claw v = this.getClawState();
         telemetry.addData("Claw pos: ", v);
+    }
+    public boolean hasReachedState(Claw claw) {
+        double wristPos = this.servoClaw.getPosition();
+
+        if (this.getClawState() == RobotStates.Claw.OPEN) {
+            this.clawPosCheck = 0.4;
+        } else if (this.getClawState() == RobotStates.Claw.CLOSED){
+            this.clawPosCheck = 1;
+        }
+
+        if((this.clawPosCheck+0.05) > wristPos && wristPos < ( this.clawPosCheck-0.05)) {
+            return(true);
+        } else {
+            return false;
+        }
     }
 }
 
