@@ -58,7 +58,7 @@ public class Claw {
             this.clawPosCheck = 1;
         }
 
-        if((this.clawPosCheck+0.05) > wristPos && wristPos < ( this.clawPosCheck-0.05)) {
+        if((this.clawPosCheck+0.05) > wristPos && wristPos > ( this.clawPosCheck-0.05)) {
             return(true);
         } else {
             return false;

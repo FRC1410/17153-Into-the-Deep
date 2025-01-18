@@ -65,7 +65,7 @@ public class Wrist {
             this.wristPosCheck = 0.5;
         }
 
-        if((this.wristPosCheck+0.05) > wristPos && wristPos < ( this.wristPosCheck-0.05)) {
+        if((this.wristPosCheck+0.05) > wristPos && wristPos > ( this.wristPosCheck-0.05)) {
             return(true);
         } else {
             return false;
