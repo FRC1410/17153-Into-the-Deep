@@ -39,10 +39,12 @@ public class ScoreOneLeft extends LinearOpMode {
         this.claw.init(this.hardwareMap);
         this.wrist.init(this.hardwareMap);
 
+        waitForStart();
+
         while (opModeIsActive()) {
-            waitForStart();
             this.shoulder.setState(RobotStates.Arm.UP);
-//             Thread.sleep(1);
+//            raiseFullCommand.raise();
+//            Thread.sleep(1);
         }
     }
 }
