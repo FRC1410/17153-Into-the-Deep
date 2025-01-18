@@ -21,6 +21,8 @@ import org.firstinspires.ftc.teamcode.Subsystem.Wrist;
 
 public class ScoreOneLeft extends LinearOpMode {
 
+    private double count = 0;
+
     private final AutoDriveTrain drivetrain = new AutoDriveTrain();
     private final Shoulder shoulder = new Shoulder();
     private final LinearSlide linearSlide = new LinearSlide();
@@ -41,10 +43,18 @@ public class ScoreOneLeft extends LinearOpMode {
 
         waitForStart();
 
+        telemetry.addData("Auto started", opModeIsActive());
+        telemetry.update();
+
+        Thread.sleep(200);
+
         while (opModeIsActive()) {
             this.shoulder.setState(RobotStates.Arm.UP);
 //            raiseFullCommand.raise();
-//            Thread.sleep(1);
+            Thread.sleep(1);
+            count ++;
+            telemetry.addData("running?", count);
+            telemetry.update();
         }
     }
 }
