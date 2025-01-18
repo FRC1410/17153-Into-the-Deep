@@ -11,10 +11,7 @@ import org.firstinspires.ftc.teamcode.Subsystem.Drivetrain;
 import org.firstinspires.ftc.teamcode.Subsystem.LinearSlide;
 import org.firstinspires.ftc.teamcode.Subsystem.Wrist;
 import org.firstinspires.ftc.teamcode.Auto.*;
-import org.firstinspires.ftc.teamcode.Subsystem.Shoulder;
 import org.firstinspires.ftc.teamcode.Util.RobotStates;
-import org.firstinspires.ftc.teamcode.Subsystem.LinearSlide;
-import org.firstinspires.ftc.teamcode.Subsystem.Wrist;
 
 
 @Autonomous(name="Robot: Score one on left (TESTING ONLY)", group="Auto")
@@ -35,11 +32,11 @@ public class ScoreOneLeft extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        this.drivetrain.init(this.hardwareMap);
-        this.shoulder.init(this.hardwareMap);
-        this.linearSlide.init(this.hardwareMap);
-        this.claw.init(this.hardwareMap);
-        this.wrist.init(this.hardwareMap);
+        drivetrain.init(this.hardwareMap);
+        shoulder.init(this.hardwareMap);
+//        linearSlide.init(this.hardwareMap);
+//        claw.init(this.hardwareMap);
+        wrist.init(this.hardwareMap);
 
         waitForStart();
 
@@ -48,13 +45,30 @@ public class ScoreOneLeft extends LinearOpMode {
 
         Thread.sleep(200);
 
-        while (opModeIsActive()) {
-            this.shoulder.setState(RobotStates.Arm.UP);
-//            raiseFullCommand.raise();
-            Thread.sleep(1);
-            count ++;
-            telemetry.addData("running?", count);
+        drivetrain.drive(0, 1, 0);
+        Thread.sleep(1000);
+        drivetrain.drive(0, 0, 0);
+
+        this.shoulder.setState(RobotStates.Arm.UP);
+
+        while (!Shoulder.hasReachedState && opModeIsActive()) {
+            this.shoulder.goToState();
+            telemetry.addData("running?", this.shoulder.getArmState());
             telemetry.update();
         }
+
+        Thread.sleep(1000);
+
+        this.shoulder.setState(RobotStates.Arm.DOWN);
+
+        while (!Shoulder.hasReachedState && opModeIsActive()) {
+            this.shoulder.goToState();
+            shoulder.armTelemetry(telemetry);
+            wrist.wristTelemetry(telemetry);
+            telemetry.update();
+        }
+
+        Thread.sleep(2000);
+
     }
 }
