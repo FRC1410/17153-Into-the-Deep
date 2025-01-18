@@ -1,6 +1,10 @@
-package org.firstinspires.ftc.teamcode.Subsystem;
+package org.firstinspires.ftc.teamcode.Auto;
 
 import static org.firstinspires.ftc.teamcode.Util.IDs.ARM_MOTOR_ID;
+import static org.firstinspires.ftc.teamcode.Util.Tuning.ARM_D;
+import static org.firstinspires.ftc.teamcode.Util.Tuning.ARM_I;
+import static org.firstinspires.ftc.teamcode.Util.Tuning.ARM_P;
+import static org.firstinspires.ftc.teamcode.Util.Tuning.ARM_THRESHOLD;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -11,9 +15,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Util.PIDController;
 import org.firstinspires.ftc.teamcode.Util.RobotStates;
 
-import static org.firstinspires.ftc.teamcode.Util.Tuning.*;
-
-public class Shoulder {
+public class AutoShoulder {
     public static boolean hasReachedState;
     private DcMotorEx armMotor;
     private final PIDController armPIDController = new PIDController(ARM_P, ARM_I, ARM_D);
@@ -47,7 +49,7 @@ public class Shoulder {
                 break;
 
             case UP:
-                desiredAngle = 1800;
+                desiredAngle = 1700;
                 break;
 
             case CLIMB_INIT:

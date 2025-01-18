@@ -2,39 +2,25 @@ package org.firstinspires.ftc.teamcode.Auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Actions.Lower;
 import org.firstinspires.ftc.teamcode.Actions.Raise;
-import org.firstinspires.ftc.teamcode.Subsystem.Shoulder;
-import org.firstinspires.ftc.teamcode.Subsystem.Claw;
-import org.firstinspires.ftc.teamcode.Subsystem.Drivetrain;
 import org.firstinspires.ftc.teamcode.Subsystem.LinearSlide;
-import org.firstinspires.ftc.teamcode.Subsystem.Wrist;
-import org.firstinspires.ftc.teamcode.Auto.*;
 import org.firstinspires.ftc.teamcode.Subsystem.Shoulder;
-import org.firstinspires.ftc.teamcode.Util.RobotStates;
-import org.firstinspires.ftc.teamcode.Subsystem.LinearSlide;
 import org.firstinspires.ftc.teamcode.Subsystem.Wrist;
 
-import java.util.concurrent.TimeUnit;
 
+@Autonomous(name="Robot: Red Left side Auto", group="Auto")
 
-@Autonomous(name="Robot: Left Side Auto", group="Auto")
+public class BlueLeft extends LinearOpMode {
 
-
-public class RedLeft extends LinearOpMode {
-
-
-    int counter = 0;
     private final AutoDriveTrain drivetrain = new AutoDriveTrain();
     private final Shoulder shoulder = new Shoulder();
     private final LinearSlide linearSlide = new LinearSlide();
-
     private final Wrist wrist = new Wrist();
-    private final ElapsedTime timer = new ElapsedTime();
+
+    private final Raise raiseFullCommand = new Raise(linearSlide, shoulder, wrist);
+    private final Lower lowerCommand = new Lower(linearSlide, shoulder, wrist);
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -42,15 +28,17 @@ public class RedLeft extends LinearOpMode {
         this.drivetrain.init(this.hardwareMap);
         this.shoulder.init(this.hardwareMap);
         this.linearSlide.init(this.hardwareMap);
-
         this.wrist.init(this.hardwareMap);
 
         waitForStart();
 
-        shoulder.goToState();
 
 
 
+        drivetrain.drive(0,-1,0);
+        Thread.sleep(3000);
+        drivetrain.drive(0,0,0);
+        Thread.sleep(100);
 
     }
 }

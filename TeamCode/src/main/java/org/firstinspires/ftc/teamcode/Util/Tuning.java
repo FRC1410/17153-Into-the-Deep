@@ -21,4 +21,5 @@ public class Tuning {
     public static double LINEAR_SLIDE_I = 0;
     public static double LINEAR_SLIDE_D = 0;
     public static double LINEAR_SLIDE_THRESHOLD = 15;
+    public static double LINEAR_SLIDE_AUTO_THRESHOLD = 15;
 }
