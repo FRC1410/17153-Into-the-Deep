@@ -78,7 +78,7 @@ public class AutoLinearSlide {
                 break;
 
             case LOW_SCORE:
-                desiredSlideHeight = 450;
+                desiredSlideHeight = 600;
                 break;
 
             case CLIMB:
@@ -140,6 +140,13 @@ public class AutoLinearSlide {
 
         this.leftSlideMotor.setPower((leftTrigger - rightTrigger) * voltageCorrection);
         this.rightSlideMotor.setPower((leftTrigger - rightTrigger) * voltageCorrection);
+    }
+
+    public int getLeftEncoderVal() {
+        return this.leftSlideMotor.getCurrentPosition();
+    }
+    public int getRightEncoderVal() {
+        return this.rightSlideMotor.getCurrentPosition();
     }
 
     public void slideData(Telemetry telemetry) {

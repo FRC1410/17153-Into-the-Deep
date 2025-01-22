@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.Util.RobotStates;
 public class AutoWrist {
     private ServoImplEx wristServo;
 
-    private RobotStates.Wrist currentWristState = RobotStates.Wrist.FLOOR;
+    private RobotStates.Wrist currentWristState = RobotStates.Wrist.SCORE;
     private double wristPos;
     public static boolean hasReachedState = false;
 
@@ -60,6 +60,15 @@ public class AutoWrist {
             hasReachedState = true; // Mark as reached once in position
         }
     }
+
+    public int getWristPos() {
+        return (int) this.wristServo.getPosition();
+    }
+
+    public boolean getCompletion(){
+        return hasReachedState;
+    }
+
 
     public void wristTelemetry(Telemetry telemetry) {
         telemetry.addData("Wrist State: ", this.currentWristState);

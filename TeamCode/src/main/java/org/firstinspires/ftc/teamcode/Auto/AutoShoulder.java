@@ -21,6 +21,7 @@ public class AutoShoulder {
     private final PIDController armPIDController = new PIDController(ARM_P, ARM_I, ARM_D);
     private RobotStates.Arm currentArmState = RobotStates.Arm.DOWN;
 
+
     private int desiredAngle;
 
     public void init(HardwareMap hardwareMap) {
@@ -58,6 +59,7 @@ public class AutoShoulder {
         }
     }
 
+
     public void goToState() {
         RobotStates.Arm desiredState = this.getArmState();
         this.setArmAngle(desiredState);
@@ -71,6 +73,13 @@ public class AutoShoulder {
             this.armMotor.setPower(0);
             hasReachedState = true;
         }
+    }
+    public boolean hasReachedState() {
+        return hasReachedState;
+    }
+
+    public int getEncoderVal() {
+        return this.armMotor.getCurrentPosition();
     }
 
     public void armTelemetry(Telemetry telemetry) {
