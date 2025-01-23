@@ -11,6 +11,7 @@ public class Claw {
     private ServoImplEx servoClaw;
     private RobotStates.Claw currentClawState = RobotStates.Claw.OPEN;
     private double clawPos;
+    public static boolean hasReachedState = false;
 
     public void init(HardwareMap hardwareMap) {
         this.servoClaw = hardwareMap.get(ServoImplEx.class,"servoClawPosSet");
@@ -19,6 +20,7 @@ public class Claw {
 
     public void setClawState(RobotStates.Claw desiredClawState) {
         this.currentClawState = desiredClawState;
+        hasReachedState = false;
     }
 
     public RobotStates.Claw getClawState() {
@@ -40,7 +42,13 @@ public class Claw {
     public void goToState() {
         RobotStates.Claw desiredClawState = this.getClawState();
         this.setClawPos(desiredClawState);
-        this.servoClaw.setPosition(clawPos);
+
+        // Continuously adjust position until it reaches the desired value
+        if (Math.abs(servoClaw.getPosition() - clawPos) > 0.01) {
+            servoClaw.setPosition(clawPos);
+        } else {
+            hasReachedState = true; // Mark as reached once in position
+        }
     }
 
     public void clawTelemetry(Telemetry telemetry) {
