@@ -66,7 +66,7 @@ public class AutoLinearSlide {
     public void setDesiredSlideHeight(RobotStates.LinearSlide linearSlideState) {
         switch (linearSlideState) {
             case START_POS:
-                desiredSlideHeight = 0;
+                desiredSlideHeight = 20;
                 break;
 
             case MANUEL:
@@ -152,5 +152,7 @@ public class AutoLinearSlide {
     public void slideData(Telemetry telemetry) {
         telemetry.addData("Left Slide Encoder: ", this.leftSlideMotor.getCurrentPosition());
         telemetry.addData("Right Slide Encoder: ", this.rightSlideMotor.getCurrentPosition());
+        telemetry.addData("Left PID Val", this.leftPIDController.calculate(desiredSlideHeight, this.leftSlideMotor.getCurrentPosition()));
+        telemetry.addData("Right PID Val", this.rightPIDController.calculate(desiredSlideHeight, this.rightSlideMotor.getCurrentPosition()));
     }
 }

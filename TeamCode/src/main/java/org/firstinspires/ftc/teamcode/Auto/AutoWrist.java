@@ -16,7 +16,7 @@ public class AutoWrist {
 
     public void init(HardwareMap hardwareMap) {
         this.wristServo = hardwareMap.get(ServoImplEx.class, "servoWristPosSet");
-        this.wristServo.setDirection(Servo.Direction.REVERSE);
+        this.wristServo.setDirection(Servo.Direction.FORWARD);
         reset(); // Reset wrist position on initialization
     }
 
@@ -38,10 +38,10 @@ public class AutoWrist {
     private void getDesiredWristPos(RobotStates.Wrist desiredWristState) {
         switch (desiredWristState) {
             case FLOOR:
-                this.wristPos = 0;
+                this.wristPos = 0.95;
                 break;
             case SCORE:
-                this.wristPos = 1;
+                this.wristPos = 0;
                 break;
             case SAFE:
                 this.wristPos = 0.5;

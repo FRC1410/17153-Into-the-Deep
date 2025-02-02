@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Util.RobotStates;
 
 public class Claw {
     private ServoImplEx servoClaw;
-    private RobotStates.Claw currentClawState = RobotStates.Claw.OPEN;
+    private RobotStates.Claw currentClawState = RobotStates.Claw.CLOSED;
     private double clawPos;
     public static boolean hasReachedState = false;
 
