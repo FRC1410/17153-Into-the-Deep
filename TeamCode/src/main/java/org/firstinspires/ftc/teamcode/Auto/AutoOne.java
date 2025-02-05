@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Auto;
 
+import static org.firstinspires.ftc.teamcode.Subsystem.Claw.*;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -32,7 +34,6 @@ public class AutoOne extends LinearOpMode {
         telemetry.update();
 
 
-
         // Initial drivetrain move
         drivetrain.drive(0, -1, 0);
         Thread.sleep(400);
@@ -42,8 +43,8 @@ public class AutoOne extends LinearOpMode {
         Thread.sleep(650);
         drivetrain.drive(0, 0, 0);
 
-        drivetrain.drive(0, 0, -1);
-        Thread.sleep(350);
+        drivetrain.drive(0, 0, 1);
+        Thread.sleep(550);
         drivetrain.drive(0, 0, 0);
 
 
@@ -59,10 +60,10 @@ public class AutoOne extends LinearOpMode {
 //            telemetry.update();
 //        }
 
-        drivetrain.drive(1, 0, 0);
-        Thread.sleep(250);
-        drivetrain.drive(0, 0, 0);
-        Thread.sleep(1000);
+//        drivetrain.drive(1, 0, 0);
+//        Thread.sleep(250);
+//        drivetrain.drive(0, 0, 0);
+//        Thread.sleep(1000);
 
 //        linearSlide.setState(RobotStates.LinearSlide.LOW_SCORE);
 //        wrist.setState(RobotStates.Wrist.FLOOR);
@@ -76,11 +77,10 @@ public class AutoOne extends LinearOpMode {
 //            telemetry.update();
 //        }
 
-        Thread.sleep(1000);
-        drivetrain.drive(0,0,-1);
-        Thread.sleep(350);
-        drivetrain.drive(0,0,0);
-        
+//        Thread.sleep(1000);
+//        drivetrain.drive(0, 0, -1);
+//        Thread.sleep(350);
+//        drivetrain.drive(0, 0, 0);
 
 
 //        wrist.setState(RobotStates.Wrist.SCORE);
@@ -95,18 +95,22 @@ public class AutoOne extends LinearOpMode {
         Thread.sleep(500);
 
 
-//        claw.setClawState(RobotStates.Claw.OPEN);
-//        while (!Claw.hasReachedState && opModeIsActive()) {
-//            claw.goToState();
-//            wrist.goToState();
-//            shoulder.armTelemetry(telemetry);
-//            wrist.wristTelemetry(telemetry);
-//            claw.clawTelemetry(telemetry);
-//            linearSlide.slideData(telemetry);
-//            telemetry.update();
-//        }
+        claw.setClawState(RobotStates.Claw.OPEN);
+        while (!hasReachedState && opModeIsActive()) {
+            claw.goToState();
+            wrist.goToState();
+            shoulder.armTelemetry(telemetry);
+            wrist.wristTelemetry(telemetry);
+            claw.clawTelemetry(telemetry);
+            linearSlide.slideData(telemetry);
+            telemetry.update();
+        }
 
-        Thread.sleep(1000);
+        Thread.sleep(500);
+//
+//        drivetrain.drive(-1,0,0);
+//        Thread.sleep(10);
+//        drivetrain.drive(0,0,0);
 
 //        wrist.setState(RobotStates.Wrist.FLOOR);
 //        while (!AutoWrist.hasReachedState && opModeIsActive()) {
@@ -119,7 +123,6 @@ public class AutoOne extends LinearOpMode {
 //            telemetry.update();
 //        }
 
-        Thread.sleep(1000);
 
 //        linearSlide.setState(RobotStates.LinearSlide.START_POS);
 //        wrist.setState(RobotStates.Wrist.FLOOR);
@@ -144,11 +147,24 @@ public class AutoOne extends LinearOpMode {
 //            linearSlide.slideData(telemetry);
 //            telemetry.update();
 //        }
-    drivetrain.drive(-1,0,0);
-    Thread.sleep(320);
-    drivetrain.drive(0,0,0);
-    drivetrain.drive(0,0,1);
-    Thread.sleep(200);
-    drivetrain.drive(0,0,0);
+//        drivetrain.drive(-1, 0, 0);
+//        Thread.sleep(320);
+//        drivetrain.drive(0, 0, 0);
+//        drivetrain.drive(0, 0, 1);
+//        Thread.sleep(200);
+//        drivetrain.drive(0, 0, 0);
+
+
+        claw.setClawState(RobotStates.Claw.CLOSED);
+        while (!hasReachedState && opModeIsActive()) {
+            claw.goToState();
+            wrist.goToState();
+            shoulder.armTelemetry(telemetry);
+            wrist.wristTelemetry(telemetry);
+            claw.clawTelemetry(telemetry);
+            linearSlide.slideData(telemetry);
+            telemetry.update();
+        }
+
     }
 }
