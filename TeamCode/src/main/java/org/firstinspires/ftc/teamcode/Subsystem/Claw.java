@@ -16,6 +16,14 @@ public class Claw {
     public void init(HardwareMap hardwareMap) {
         this.servoClaw = hardwareMap.get(ServoImplEx.class,"servoClawPosSet");
         this.servoClaw.setDirection(Servo.Direction.FORWARD);
+        reset();
+    }
+
+    public void reset() {
+        // Set the wrist to the SAFE position when resetting
+        setClawPos(RobotStates.Claw.CLOSED);
+        goToState();
+        hasReachedState = true; // Assume it's already in position after reset
     }
 
     public void setClawState(RobotStates.Claw desiredClawState) {

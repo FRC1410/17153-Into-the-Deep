@@ -78,7 +78,7 @@ public class AutoLinearSlide {
                 break;
 
             case LOW_SCORE:
-                desiredSlideHeight = 1_200;
+                desiredSlideHeight = 1_900;
                 break;
 
             case CLIMB:
