@@ -66,7 +66,7 @@ public class AutoLinearSlide {
     public void setDesiredSlideHeight(RobotStates.LinearSlide linearSlideState) {
         switch (linearSlideState) {
             case START_POS:
-                desiredSlideHeight = 20;
+                desiredSlideHeight = 15;
                 break;
 
             case MANUEL:
@@ -78,7 +78,7 @@ public class AutoLinearSlide {
                 break;
 
             case LOW_SCORE:
-                desiredSlideHeight = 1_900;
+                desiredSlideHeight = 2_730;
                 break;
 
             case CLIMB:

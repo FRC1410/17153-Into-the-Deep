@@ -24,7 +24,7 @@ public class AutoWrist {
         // Set the wrist to the SAFE position when resetting
         setState(RobotStates.Wrist.FLOOR);
         goToState();
-        hasReachedState = true; // Assume it's already in position after reset
+        //hasReachedState = true; // Assume it's already in position after reset
     }
     public void setState(RobotStates.Wrist desiredWristState) {
         this.currentWristState = desiredWristState;
@@ -38,7 +38,7 @@ public class AutoWrist {
     private void getDesiredWristPos(RobotStates.Wrist desiredWristState) {
         switch (desiredWristState) {
             case FLOOR:
-                this.wristPos = 0.95;
+                this.wristPos = 0.99;
                 break;
             case SCORE:
                 this.wristPos = 0;
