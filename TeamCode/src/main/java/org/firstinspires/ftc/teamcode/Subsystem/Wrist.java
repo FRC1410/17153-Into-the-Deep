@@ -12,6 +12,7 @@ public class Wrist {
 
     private RobotStates.Wrist currentWristState = RobotStates.Wrist.FLOOR;
     private double wristPos;
+    private double wristPosCheck;
 
     public void init(HardwareMap hardwareMap) {
         this.wristServo = hardwareMap.get(ServoImplEx.class,"servoWristPosSet");
@@ -51,5 +52,23 @@ public class Wrist {
     public void wristTelemetry(Telemetry telemetry) {
         RobotStates.Wrist v = this.getCurrentState();
         telemetry.addData("Wrist pos: ", v);
+    }
+
+    public boolean hasReachedState(Wrist wrist) {
+        double wristPos = this.wristServo.getPosition();
+
+        if (this.getCurrentState() == RobotStates.Wrist.FLOOR) {
+            this.wristPosCheck = 0;
+        } else if (this.getCurrentState() == RobotStates.Wrist.SCORE){
+            this.wristPosCheck = 1;
+        } else if(this.getCurrentState() == RobotStates.Wrist.SAFE) {
+            this.wristPosCheck = 0.5;
+        }
+
+        if((this.wristPosCheck+0.05) > wristPos && wristPos > ( this.wristPosCheck-0.05)) {
+            return(true);
+        } else {
+            return false;
+        }
     }
 }
